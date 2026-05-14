@@ -1,0 +1,26 @@
+{
+	"name": "drago-ex/project-backend-ui",
+	"type": "project",
+	"description": "The basis for new projects on Drago Extension.",
+	"require": {
+		"php": ">=8.3 <9",
+		"drago-ex/project-user": "^1.0",
+	  	"drago-ex/project-backend": "^1.0",
+	  	"drago-ex/project-auth": "^1.0"
+	},
+  "extra": {
+	"drago-project": {
+	  "install": {
+		"copy": {
+		  "resources/assets": "assets"
+		},
+		"replace": {
+		  "resources/app": "app"
+		}
+	  }
+	}
+  },
+  "require-dev": {
+	"phpstan/phpstan-nette": "^1.2.9"
+  }
+}

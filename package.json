@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "dashboard-skeleton-compostrap": "^2.0.12",
+    "perfect-scrollbar": "^1.5.6"
+  }
+}
