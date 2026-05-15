@@ -12,5 +12,5 @@ Integration of a basic template for administration.
 
 ## Installation
 ```bash
-composer require drago-ex/project-backend-u
+composer require drago-ex/project-backend-ui
 ```
