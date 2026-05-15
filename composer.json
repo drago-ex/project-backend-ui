@@ -8,19 +8,30 @@
 	  	"drago-ex/project-backend": "^1.0",
 	  	"drago-ex/project-auth": "^1.0"
 	},
-  "extra": {
-	"drago-project": {
-	  "install": {
-		"copy": {
-		  "resources/assets": "assets"
-		},
-		"replace": {
-		  "resources/app": "app"
+	"extra": {
+		"drago-project": {
+			"install": {
+				"copy": {
+					"resources/assets": "assets"
+				},
+				"replace": {
+					"resources/app": "app"
+				}
+			}
 		}
-	  }
+	},
+	"require-dev": {
+		"phpstan/phpstan-nette": "^1.2.9",
+		"drago-ex/project-installer": "@dev"
+	},
+	"scripts": {
+		"post-install-cmd": [
+			"drago-install --dev",
+			"drago-clean"
+		],
+		"post-update-cmd": [
+			"drago-install --dev",
+			"drago-clean"
+		]
 	}
-  },
-  "require-dev": {
-	"phpstan/phpstan-nette": "^1.2.9"
-  }
 }
