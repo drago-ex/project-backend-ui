@@ -10,6 +10,7 @@
 	},
 	"extra": {
 		"drago-project": {
+		  "allow-library-install": true,
 			"install": {
 				"copy": {
 					"resources/assets": "assets"
