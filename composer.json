@@ -1,7 +1,7 @@
 {
 	"name": "drago-ex/project-backend-ui",
 	"type": "project",
-	"description": "The basis for new projects on Drago Extension.",
+	"description": "Integration of a basic template for administration.",
 	"require": {
 		"php": ">=8.3 <9",
 		"drago-ex/project-user": "^1.0",
