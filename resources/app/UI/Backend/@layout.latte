@@ -13,7 +13,7 @@
     {asset 'admin.js'}
 </head>
 
-<body class="bg-light" n:if="$userAccess->isLoggedIn()">
+<body n:if="$userAccess->isLoggedIn()">
 
 <header>
     <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
@@ -23,11 +23,6 @@
             <a class="navbar-brand text-primary" n:href="this"><i class="fa-brands fa-medapps px-1"></i>
                 <span class="fw-semibold">Drago</span>
             </a>
-
-            <!-- sidebar toggle -->
-            <button class="navbar-toggler btn btn-link border-0" type="button" id="sidebar" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
             <!-- navbar navigation -->
             <div class="collapse navbar-collapse">
@@ -42,12 +37,25 @@
                     </li>
                 </ul>
             </div>
+
+            <div class="ms-auto d-flex align-items-center">
+
+                <!-- theme toggle -->
+                <button class="btn btn-link nav-link py-2 px-0 px-lg-2 border-0" id="theme-toggle" type="button" aria-label="Toggle theme">
+                    Switch to light
+                </button>
+
+                <!-- sidebar toggle -->
+                <button class="navbar-toggler btn btn-link border-0 ms-2" type="button" id="sidebar" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
         </div>
     </nav>
 </header>
 
 <div class="d-flex wrapper wrapper-navbar-used wrapper-navbar-fixed">
-    <nav role="navigation" class="sidebar sidebar-bg-white sidebar-rounded-top-right shadow-sm" id="navigation">
+    <nav role="navigation" class="sidebar sidebar-rounded-top-right shadow-soft"  data-sidebar-theme="light" id="navigation">
 
         <!-- sidebar -->
         <div class="sidebar-menu">
@@ -56,10 +64,10 @@
             <div class="sidebar-menu-fixed">
 
                 <!-- menu scrollbar -->
-                <div class="scrollbar scrollbar-use-navbar scrollbar-bg-white">
+                <div class="scrollbar scrollbar-use-navbar">
 
                     <!-- menu -->
-                    <ul class="list list-unstyled list-bg-white mb-0">
+                    <ul class="list list-unstyled mb-0">
 
                         <li class="list-item">
 
@@ -84,7 +92,7 @@
                     </ul>
 
                     <!-- menu -->
-                    <ul class="list list-unstyled list-bg-white list-icon-blue mb-0">
+                    <ul class="list list-unstyled list-bg-white mb-0">
 
                         <!-- multi-level dropdown menu -->
                         <li class="list-item">
@@ -112,7 +120,7 @@
                     </ul>
 
                     <!-- system -->
-                    <ul class="list list-unstyled list-bg-white list-icon-blue mb-0">
+                    <ul class="list list-unstyled mb-0">
 
                         <li class="list-item">
 
