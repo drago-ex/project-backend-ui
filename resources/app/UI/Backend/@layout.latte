@@ -134,7 +134,7 @@
                                         <span class="list-icon"><i class="fa-solid fa-mug-hot bell"></i></span>{_'Dashboard'}
                                     </a>
                                 </li>
-                                <li>
+                                <li n:if="$userAccess->isAnyAllowed('Backend:AccessControl', 'roles-read', 'users-read')">
                                     <a href="#" n:class="'list-link link-arrow', $presenter->isLinkCurrent('AccessControl:*') ? link-current">
                                         <span class="list-icon"><i class="fa-solid fa-gear bell"></i></span>{_'Permissions'}
                                     </a>
