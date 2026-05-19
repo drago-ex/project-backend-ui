@@ -38,13 +38,7 @@ class BackendPresenter extends BasePresenter
 		$builder = new SidebarBuilder;
 		$builder->addSection('System')
 			->addItem('Dashboard', 'Admin:')
-			->setIcon('fa-solid fa-mug-hot bell')
-
-			->addItem('Permissions', 'AccessControl:*')
-			->setIcon('fa-solid fa-gear bell')
-			->setAllowAny('Backend:AccessControl', 'roles-read', 'users-read')
-			->addSubItem('Roles', 'AccessControl:roles', ['Backend:AccessControl', 'roles-read'])
-			->addSubItem('Users', 'AccessControl:users', ['Backend:AccessControl', 'users-read']);
+			->setIcon('fa-solid fa-mug-hot bell');
 
 		return $builder->build();
 	}
