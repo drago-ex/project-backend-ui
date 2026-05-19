@@ -29,8 +29,7 @@
                                 {foreach $item->items as $subItem}
                                     {if $subItem->allow === null || $userAccess->isAllowed(...$subItem->allow)}
                                         <li>
-                                            <a n:href="$subItem->link"
-                                                    n:class="'list-link', $presenter->isLinkCurrent($subItem->link) ? link-current">
+                                            <a n:href="$subItem->link" n:class="'list-link', $presenter->isLinkCurrent($subItem->link) ? link-current">
                                                 {_$subItem->title}
                                             </a>
                                         </li>
