@@ -1,8 +1,9 @@
 # Drago Project Backend UI
-Integration of a basic template for administration. This package is based on [Dashboard Skeleton](https://github.com/compostrap/dashboard-skeleton).
+Integration of a basic template for administration.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/drago-ex/project-backend-ui/blob/main/license)
 [![PHP version](https://badge.fury.io/ph/drago-ex%2Fproject-backend-ui.svg)](https://badge.fury.io/ph/drago-ex%2Fproject-backend-ui)
+[![Coding Style](https://github.com/drago-ex/project-backend-ui/actions/workflows/coding-style.yml/badge.svg)](https://github.com/drago-ex/project-backend-ui/actions/workflows/coding-style.yml)
 
 ## Requirements
 - PHP >= 8.3
@@ -18,10 +19,12 @@ Integration of a basic template for administration. This package is based on [Da
 composer require drago-ex/project-backend-ui
 ```
 
-## Install NPM
+## Install npm
 ```bash
 npm install sidebar-skeleton-compostrap sidebar-menu-compostrap dashboard-skeleton-compostrap perfect-scrollbar
 ```
+
+This package is based on [Dashboard Skeleton](https://github.com/compostrap/dashboard-skeleton).
 
 ## Use admin-theme.js
 ```js
