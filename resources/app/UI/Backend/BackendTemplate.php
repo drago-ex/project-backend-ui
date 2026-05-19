@@ -8,7 +8,7 @@ use App\Core\User\UserAccess;
 use App\UI\BaseTemplate;
 
 
-class SecuredTemplate extends BaseTemplate
+class BackendTemplate extends BaseTemplate
 {
 	public UserAccess $userAccess;
 	public array $sidebarMenu = [];
