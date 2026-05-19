@@ -1,6 +1,9 @@
 # Drago Project Backend UI
 Integration of a basic template for administration. This package is based on [Dashboard Skeleton](https://github.com/compostrap/dashboard-skeleton).
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/drago-ex/project-backend-ui/blob/main/license)
+[![PHP version](https://badge.fury.io/ph/drago-ex%2Fproject-backend-ui.svg)](https://badge.fury.io/ph/drago-ex%2Fproject-backend-ui)
+
 ## Requirements
 - PHP >= 8.3
 - Nette Framework
@@ -15,7 +18,7 @@ Integration of a basic template for administration. This package is based on [Da
 composer require drago-ex/project-backend-ui
 ```
 
-## install npm
+## Install NPM
 ```bash
 npm install sidebar-skeleton-compostrap sidebar-menu-compostrap dashboard-skeleton-compostrap perfect-scrollbar
 ```
@@ -62,15 +65,18 @@ protected function beforeRender(): void
 }
 ```
 
-### Menu Composition Guide
-- **`addSection(string $title)`**: (Optional) Creates a new group of items with a visible header (title). Use this when you want to visually separate different parts of the menu. If skipped, items will be grouped together without a title.
-- **`addItem(string $title, string $link)`**: Adds a primary link to the sidebar. 
-    - **Plain Link**: If you only use `addItem`, it renders as a direct link to the destination.
-    - **Submenu Trigger**: If you follow it with `addSubItem`, the primary link automatically becomes a dropdown toggle that opens the submenu.
-- **`setIcon(string $icon)`**: Attaches a FontAwesome icon (e.g., `fa-solid fa-user`) to the last added primary item.
-- **`addSubItem(string $title, string $link, ?array $allow = null)`**: Adds a child link to the last added primary item, automatically turning it into a submenu.
+## Menu Composition Guide
+- **addSection(string $title)** - (Optional) Creates a new group of items with a visible header (title). Use this when you want to visually separate different parts of the menu. If skipped, items will be grouped together without a title.
 
-### Integration with project-permission
-If you are using the [project-permission](https://github.com/drago-ex/project-permission) package, the menu automatically handles visibility:
-- **`setAllowAny(resource, ...privileges)`**: The main item is displayed if the user has **at least one** of the specified privileges.
-- **`addSubItem(..., [resource, privilege])`**: The sub-item is displayed only if the user has the **exact** privilege.
+- **addItem(string $title, string $link)** - Adds a primary link to the sidebar. If you only use this method, it renders as a direct link. If followed by `addSubItem`, it automatically becomes a dropdown toggle for the submenu.
+
+- **setIcon(string $icon)** - Attaches a FontAwesome icon (e.g., `fa-solid fa-user`) to the last added primary item.
+
+- **addSubItem(string $title, string $link, ?array $allow = null)** - Adds a child link to the last added primary item, automatically turning it into a submenu.
+
+## Integration with project-permission
+If you are using the [project-permission](https://github.com/drago-ex/project-permission) package, the menu automatically handles visibility based on user privileges.
+
+- **setAllowAny(resource, ...privileges)** - The main item is displayed if the user has **at least one** of the specified privileges for the given resource.
+
+- **addSubItem(..., [resource, privilege])** - The sub-item is displayed only if the user has the **exact** privilege for the given resource.
