@@ -12,24 +12,22 @@
                     {do $hasSubmenu = $item->items !== []}
                     {if $item->allowAny === null || $userAccess->isAnyAllowed(...$item->allowAny)}
                         <li>
-                            {if $hasSubmenu}
-                                <a href="#" n:class="'list-link link-arrow', $presenter->isLinkCurrent($item->link) ? link-current">
-                                    <span n:if="$item->icon" class="list-icon"><i class="{(string) $item->icon}"></i></span>
-                                    {_$item->title}
-                                </a>
-                            {else}
-                                <a n:href="$item->link" n:class="'list-link', $presenter->isLinkCurrent($item->link) ? link-current">
-                                    <span n:if="$item->icon" class="list-icon"><i class="{(string) $item->icon}"></i></span>
-                                    {_$item->title}
-                                </a>
-                            {/if}
+                            {do $link = $hasSubmenu ? '#' : $presenter->link($item->link)}
+                            {do $current = $presenter->isLinkCurrent($item->link)}
+                            <a href="{$link}" n:class="'list-link',$hasSubmenu ? 'link-arrow', $current ? 'link-current'">
+                                <span n:if="$item->icon" class="list-icon">
+                                    <i class="{(string) $item->icon}"></i>
+                                </span>
+                                {_$item->title}
+                            </a>
 
                             <!-- list items, second level -->
                             <ul n:if="$hasSubmenu" class="list-unstyled list-hidden">
                                 {foreach $item->items as $subItem}
                                     {if $subItem->allow === null || $userAccess->isAllowed(...$subItem->allow)}
                                         <li>
-                                            <a n:href="$subItem->link" n:class="'list-link', $presenter->isLinkCurrent($subItem->link) ? link-current">
+                                            {do $current = $presenter->isLinkCurrent($subItem->link)}
+                                            <a n:href="$subItem->link" n:class="'list-link', $current ? link-current">
                                                 {_$subItem->title}
                                             </a>
                                         </li>
