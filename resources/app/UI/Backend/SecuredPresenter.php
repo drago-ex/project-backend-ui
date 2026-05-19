@@ -12,9 +12,9 @@ use Nette\DI\Attributes\Inject;
 
 
 /**
- * @property SecuredTemplate $template
+ * @property BackendTemplate $template
  */
-class SecuredPresenter extends BasePresenter
+class BackendPresenter extends BasePresenter
 {
 	use RequireLogged;
 
