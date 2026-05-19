@@ -14,7 +14,7 @@
                         <li>
                             {do $link = $hasSubmenu ? '#' : $presenter->link($item->link)}
                             {do $current = $presenter->isLinkCurrent($item->link)}
-                            <a href="{$link}" n:class="'list-link',$hasSubmenu ? 'link-arrow', $current ? 'link-current'">
+                            <a href="{$link}" n:class="'list-link', $hasSubmenu ? 'link-arrow', $current ? 'link-current'">
                                 <span n:if="$item->icon" class="list-icon">
                                     <i class="{(string) $item->icon}"></i>
                                 </span>
