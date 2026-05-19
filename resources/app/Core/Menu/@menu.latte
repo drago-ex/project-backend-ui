@@ -19,7 +19,7 @@
                                 </a>
                             {else}
                                 <a n:href="$item->link" n:class="'list-link', $presenter->isLinkCurrent($item->link) ? link-current">
-                                    <span n:if="$item->icon" class="list-icon"><i class="{(string) {$item->icon}"></i></span>
+                                    <span n:if="$item->icon" class="list-icon"><i class="{(string) $item->icon}"></i></span>
                                     {_$item->title}
                                 </a>
                             {/if}
