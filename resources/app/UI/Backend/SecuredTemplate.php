@@ -11,4 +11,5 @@ use App\UI\BaseTemplate;
 class SecuredTemplate extends BaseTemplate
 {
 	public UserAccess $userAccess;
+	public array $sidebarMenu = [];
 }

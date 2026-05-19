@@ -56,107 +56,18 @@
 
 <div class="d-flex wrapper wrapper-navbar-used wrapper-navbar-fixed">
     <nav role="navigation" class="sidebar sidebar-rounded-top-right shadow-soft"  data-sidebar-theme="light" id="navigation">
-
-        <!-- sidebar -->
         <div class="sidebar-menu">
-
-            <!-- menu fixed -->
             <div class="sidebar-menu-fixed">
-
-                <!-- menu scrollbar -->
                 <div class="scrollbar scrollbar-use-navbar">
 
-                    <!-- menu -->
-                    <ul class="list list-unstyled mb-0">
+                    {* user logged *}
+                    {include '../../Core/Menu/@menu.user.latte'}
 
-                        <li class="list-item">
+                    {* translate switch *}
+                    {include '../../Core/Menu/@menu.translate.latte'}
 
-                            <!-- list title -->
-                            <p class="list-title text-uppercase">{_'User'}</p>
-
-                            <!-- list items, first level -->
-                            <ul class="list-unstyled">
-                                <li>
-                                    <a href="#" class="list-link link-arrow">
-                                        <span class="list-icon"><i class="fa-regular fa-user bell"></i></span>
-                                        {$userAccess->getUserIdentity()->username}
-                                    </a>
-
-                                    <!-- list items, second level -->
-                                    <ul class="list-unstyled list-hidden">
-                                        <li><a href="{link Sign:out}" class="list-link">{_'Sign out'}</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-
-                    <!-- menu -->
-                    <ul class="list list-unstyled list-bg-white mb-0">
-
-                        <!-- multi-level dropdown menu -->
-                        <li class="list-item">
-
-                            <!-- list title -->
-                            <p class="list-title text-uppercase">{_'Translate'}</p>
-
-                            <!-- list items -->
-                            <ul class="list-unstyled">
-
-                                <!-- translate -->
-                                <li>
-                                    <a href="#" n:class="'list-link link-arrow', $presenter->isLinkCurrent('this') ? link-current">
-                                        <span class="list-icon"><i class="fa-solid fa-globe bell"></i></span>{_'Translate'}
-                                    </a>
-
-                                    <!-- list items, second level -->
-                                    <ul class="list-unstyled list-hidden">
-                                        <li><a n:href="this, 'lang' => 'cs'" n:class="list-link, $presenter->isLinkCurrent('this', ['lang' => 'cs']) ? link-current">{_'Czech'}</a></li>
-                                        <li><a n:href="this, 'lang' => 'en'" n:class="list-link, $presenter->isLinkCurrent('this', ['lang' => 'en']) ? link-current">{_'English'}</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-
-                    <!-- system -->
-                    <ul class="list list-unstyled mb-0">
-
-                        <li class="list-item">
-
-                            <!-- list title -->
-                            <p class="list-title text-uppercase">{_'System'}</p>
-
-                            <!-- list items, first level -->
-                            <ul class="list-unstyled">
-                                <li>
-                                    <a n:href="Admin:" n:class="'list-link', $presenter->isLinkCurrent('Admin:') ? link-current">
-                                        <span class="list-icon"><i class="fa-solid fa-mug-hot bell"></i></span>{_'Dashboard'}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" n:class="'list-link link-arrow', $presenter->isLinkCurrent('AccessControl:*') ? link-current">
-                                        <span class="list-icon"><i class="fa-solid fa-gear bell"></i></span>{_'Permissions'}
-                                    </a>
-
-                                    <!-- list items, second level -->
-                                    <ul class="list-unstyled list-hidden">
-                                        <li n:if="$userAccess->isAllowed('Backend:AccessControl', 'roles-read')">
-                                            <a n:href="AccessControl:roles" n:class="'list-link', $presenter->isLinkCurrent('AccessControl:roles') ? link-current">
-                                                {_'Roles'}
-                                            </a>
-                                        </li>
-                                        <li n:if="$userAccess->isAllowed('Backend:AccessControl', 'users-read')">
-                                            <a n:href="AccessControl:users" n:class="'list-link', $presenter->isLinkCurrent('AccessControl:users') ? link-current">
-                                                {_'Users'}
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                            </ul>
-                        </li>
-                    </ul>
+                    {* tree menu *}
+                    {include '../../Core/Menu/@menu.latte'}
 
                 </div>
             </div>
@@ -165,7 +76,7 @@
 
     <div class="container-fluid">
 
-        <!-- content -->
+        {* content *}
         <main role="main">
             {snippet message}
                 {include '../../Core/Widget/@toast.latte', messages: $flashes}
