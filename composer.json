@@ -26,6 +26,7 @@
 		"drago-ex/project-installer": "@dev"
 	},
 	"scripts": {
+		"phpstan": "phpstan analyse --level 5 --configuration tests/phpstan/phpstan.neon resources/app",
 		"post-install-cmd": [
 			"drago-install --dev",
 			"drago-clean"

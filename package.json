@@ -1,8 +1,8 @@
 {
   "dependencies": {
-    "dashboard-skeleton-compostrap": "^2.1",
+    "dashboard-skeleton-compostrap": "^2.1.0",
     "perfect-scrollbar": "^1.5.6",
-    "sidebar-menu-compostrap": "^2.1.1",
-    "sidebar-skeleton-compostrap": "^2.1.1"
+    "sidebar-menu-compostrap": "^2.1.0",
+    "sidebar-skeleton-compostrap": "^2.1.0"
   }
 }
