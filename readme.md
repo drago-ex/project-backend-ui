@@ -41,7 +41,7 @@ The menu is typically created in a base presenter for the administration (e.g., 
 private function getSidebarMenuStructure(): array
 {
 	$builder = new SidebarBuilder;
-	
+
 	// Sections are optional and serve as titles/separators
 	$builder->addSection('System')
 		// Simple link with icon
