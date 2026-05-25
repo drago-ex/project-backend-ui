@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\UI\Backend;
 
 use App\Core\Menu\SidebarBuilder;
+use App\Core\Menu\SidebarItem;
 use App\Core\User\UserAccess;
 use App\UI\Backend\Sign\RequireLogged;
 use App\UI\BasePresenter;
@@ -31,7 +32,8 @@ class BackendPresenter extends BasePresenter
 
 
 	/**
-	 * Generating sidebar menu.
+	 * Generates the sidebar menu structure.
+	 * @return array<string, SidebarItem[]>
 	 */
 	private function getSidebarMenuStructure(): array
 	{
