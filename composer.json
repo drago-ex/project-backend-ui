@@ -4,9 +4,9 @@
 	"description": "Integration of a basic template for administration.",
 	"require": {
 		"php": ">=8.3 <9",
-		"drago-ex/project-user": "^1.0",
-		"drago-ex/project-backend": "^1.0",
-		"drago-ex/project-auth": "^1.0"
+		"drago-ex/project-user": "^2.0",
+		"drago-ex/project-backend": "^2.0",
+		"drago-ex/project-auth": "^2.0"
 	},
 	"extra": {
 		"drago-project": {
