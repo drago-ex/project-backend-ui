@@ -11,6 +11,7 @@
 	"extra": {
 		"drago-project": {
 			"allow-library-install": true,
+			"priority": 200,
 			"install": {
 				"copy": {
 					"resources/assets": "assets"
