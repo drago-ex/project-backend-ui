@@ -8,6 +8,9 @@
 		"drago-ex/project-backend": "^2.0",
 		"drago-ex/project-auth": "^2.0"
 	},
+	"suggest": {
+		"drago-ex/translator": "Configures Latte translation support for bundled templates using translation macros."
+	},
 	"extra": {
 		"drago-project": {
 			"allow-library-install": true,
