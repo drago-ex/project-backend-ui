@@ -21,6 +21,9 @@
 "An error occurred during file upload.": "Při nahrávání souboru došlo k chybě."
 "Your session has expired. Please return to the home page and try again.": "Vaše relace vypršela. Vraťte se na domovskou stránku a zkuste to znovu."
 
+# default translate
+"Close": "Zavřít"
+
 # backend
 "Sign out": "Odhlásit se"
 "Dashboard": "Administrace"
