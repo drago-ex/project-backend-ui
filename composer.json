@@ -1,6 +1,6 @@
 {
 	"name": "drago-ex/project-backend-ui",
-	"type": "project",
+	"type": "drago-tools-resource",
 	"description": "Integration of a basic template for administration.",
 	"require": {
 		"php": ">=8.3 <9",
@@ -12,8 +12,7 @@
 		"drago-ex/translator": "Configures Latte translation support for bundled templates using translation macros."
 	},
 	"extra": {
-		"drago-project": {
-			"allow-library-install": true,
+		"drago-tools": {
 			"install": {
 				"copy": {
 					"resources/assets": "assets"
