@@ -14,6 +14,11 @@
                         <li>
                             {do $link = $hasSubmenu ? '#' : $presenter->link($item->link)}
                             {do $current = $presenter->isLinkCurrent($item->link)}
+                            {if $hasSubmenu}
+                                {foreach $item->items as $subItem}
+                                    {do $current = $current || $presenter->isLinkCurrent($subItem->link)}
+                                {/foreach}
+                            {/if}
                             <a href="{$link}" n:class="'list-link', $hasSubmenu ? 'link-arrow', $current ? 'link-current'">
                                 <span n:if="$item->icon" class="list-icon">
                                     <i class="{(string) $item->icon}"></i>
