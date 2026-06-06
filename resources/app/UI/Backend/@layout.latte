@@ -3,7 +3,7 @@
 {varType App\Core\User\UserAccess $userAccess}
 
 <!doctype html>
-<html lang="{$lang}">
+<html lang="{$lang}" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8">
@@ -16,12 +16,12 @@
 <body n:if="$userAccess->isLoggedIn()">
 
 <header>
-    <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+    <nav class="navbar navbar-expand-md bg-body-tertiary fixed-top">
         <div class="container-fluid">
 
             <!-- title -->
-            <a class="navbar-brand text-primary" n:href="Admin:"><i class="fa-brands fa-medapps px-1"></i>
-                <span class="fw-semibold">Drago</span>
+            <a class="navbar-brand" n:href="Admin:"><i class="fa-brands fa-medapps text-primary"></i>
+                <span class="text-body-emphasis">Drago</span>
             </a>
 
             <!-- navbar navigation -->
