@@ -25,8 +25,8 @@ which must be installed in your project. Without it, copy the files manually acc
 in this package's `composer.json`. To skip this package, set `"skip": true` under
 `extra.drago-tools.packages.<package-name>` in your root `composer.json`.
 
-> ⚠️ This package uses the `replace` section, which means some files will be **overwritten if they already exist**.
-> Avoid manual edits to those files — use the `skip` option if you need to manage them yourself.
+> Warning: This package uses the `replace` section, which means some files will be **overwritten if they already exist**.
+> Avoid manual edits to those files; use the `skip` option if you need to manage them yourself.
 
 ## Install npm
 ```bash
@@ -36,8 +36,11 @@ npm install sidebar-skeleton-compostrap sidebar-menu-compostrap dashboard-skelet
 This package is based on [Dashboard Skeleton](https://github.com/compostrap/dashboard-skeleton).
 
 ## Use admin-theme.js
+The copied `assets/admin.js` file already initializes the admin theme:
+
 ```js
-import { initAdminTheme } from "admin-theme.js";
+import { initAdminTheme } from "./core/admin-theme.js";
+
 document.addEventListener("DOMContentLoaded", () => {
 	initAdminTheme();
 });
