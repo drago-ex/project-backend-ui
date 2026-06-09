@@ -61,11 +61,11 @@ private function getSidebarMenuStructure(): array
 		->setIcon('fa-solid fa-mug-hot bell')
 
 		// Complex item with permissions and submenu
-		->addItem('Permissions', 'AccessControl:*')
+		->addItem('Permissions', 'Permission:*')
 		->setIcon('fa-solid fa-gear bell')
-		->setAllowAny('Backend:AccessControl', 'roles-read', 'users-read')
-		->addSubItem('Roles', 'AccessControl:roles', ['Backend:AccessControl', 'roles-read'])
-		->addSubItem('Users', 'AccessControl:users', ['Backend:AccessControl', 'users-read']);
+		->setAllowAny('Backend:Permission', 'roles-read', 'users-read')
+		->addSubItem('Roles', 'Permission:roles', ['Backend:Permission', 'roles-read'])
+		->addSubItem('Users', 'Permission:users', ['Backend:Permission', 'users-read']);
 
 	return $builder->build();
 }
