@@ -12,9 +12,7 @@ use App\UI\BasePresenter;
 use Nette\DI\Attributes\Inject;
 
 
-/**
- * @property BackendTemplate $template
- */
+/** @property BackendTemplate $template */
 class BackendPresenter extends BasePresenter
 {
 	use RequireLogged;
