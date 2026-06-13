@@ -6,95 +6,95 @@
 <html lang="{$lang}" data-bs-theme="light">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{ifset title}{include title|stripHtml|firstUpper} &bull;{/ifset} Backend</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>{ifset title}{include title|stripHtml|firstUpper} &bull;{/ifset} Backend</title>
 
-    {asset 'admin.js'}
+	{asset 'admin.js'}
 </head>
 
 <body n:if="$userAccess->isLoggedIn()">
 
 <header>
-    <nav class="navbar navbar-expand-md bg-transparent fixed-top">
-        <div class="container-fluid">
+	<nav class="navbar navbar-expand-md bg-transparent fixed-top">
+		<div class="container-fluid">
 
-            <!-- title -->
-            <a class="navbar-brand" n:href="Admin:"><i class="fa-brands fa-medapps text-primary"></i>
-                <span class="text-body-emphasis">Drago</span>
-            </a>
+			<!-- title -->
+			<a class="navbar-brand" n:href="Admin:"><i class="fa-brands fa-medapps text-primary"></i>
+				<span class="text-body-emphasis">Drago</span>
+			</a>
 
-            <!-- navbar navigation -->
-            <div class="collapse navbar-collapse">
+			<!-- navbar navigation -->
+			<div class="collapse navbar-collapse">
 
-                <!-- breadcrumb -->
-                <ul class="navbar-nav navbar-nav-breadcrumb">
-                    <li class="nav-item"><a class="nav-link" n:href="Admin:">{_'Dashboard'}</a></li>
-                    <li n:if="!$presenter->isLinkCurrent('Admin:default')" class="nav-item">
-                        <a n:class="'nav-link', !$presenter->isLinkCurrent('Admin:default') ? disabled" n:href="Admin:">
-                            {ifset title}{include title|stripHtml|firstUpper}{/ifset}
-                        </a>
-                    </li>
-                </ul>
-            </div>
+				<!-- breadcrumb -->
+				<ul class="navbar-nav navbar-nav-breadcrumb">
+					<li class="nav-item"><a class="nav-link" n:href="Admin:">{_'Dashboard'}</a></li>
+					<li n:if="!$presenter->isLinkCurrent('Admin:default')" class="nav-item">
+						<a n:class="'nav-link', !$presenter->isLinkCurrent('Admin:default') ? disabled" n:href="Admin:">
+							{ifset title}{include title|stripHtml|firstUpper}{/ifset}
+						</a>
+					</li>
+				</ul>
+			</div>
 
-            <div class="ms-auto d-flex align-items-center">
+			<div class="ms-auto d-flex align-items-center">
 
-                <!-- theme toggle -->
-                <button
-                    class="btn btn-link nav-link py-2 px-0 px-lg-2 border-0 text-decoration-none"
-                    id="theme-toggle"
-                    type="button"
-                    aria-label="{_'Toggle theme'}"
-                    data-theme-light-label="{_'Light mode'}"
-                    data-theme-dark-label="{_'Dark mode'}"
-                >
-                    <i class="theme-toggle-icon fa-solid fa-moon"></i>
-                    <span class="theme-toggle-label">{_'Dark mode'}</span>
-                </button>
+				<!-- theme toggle -->
+				<button
+					class="btn btn-link nav-link py-2 px-0 px-lg-2 border-0 text-decoration-none"
+					id="theme-toggle"
+					type="button"
+					aria-label="{_'Toggle theme'}"
+					data-theme-light-label="{_'Light mode'}"
+					data-theme-dark-label="{_'Dark mode'}"
+				>
+					<i class="theme-toggle-icon fa-solid fa-moon"></i>
+					<span class="theme-toggle-label">{_'Dark mode'}</span>
+				</button>
 
-                <!-- sidebar toggle -->
-                <button class="navbar-toggler btn btn-link border-0 ms-2" type="button" id="sidebar" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-        </div>
-    </nav>
+				<!-- sidebar toggle -->
+				<button class="navbar-toggler btn btn-link border-0 ms-2" type="button" id="sidebar" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+		</div>
+	</nav>
 </header>
 
 <div class="d-flex wrapper wrapper-navbar-used wrapper-navbar-fixed">
-    <nav role="navigation" class="sidebar sidebar-rounded-top-right shadow-soft" id="navigation">
-        <div class="sidebar-menu">
-            <div class="sidebar-menu-fixed">
-                <div class="scrollbar scrollbar-use-navbar">
+	<nav role="navigation" class="sidebar sidebar-rounded-top-right shadow-soft" id="navigation">
+		<div class="sidebar-menu">
+			<div class="sidebar-menu-fixed">
+				<div class="scrollbar scrollbar-use-navbar">
 
-                    {* sidebar menu *}
-                    {include '../../Core/Menu/@menu.user.latte'}
-                    {include '../../Core/Menu/@menu.translate.latte'}
-                    {include '../../Core/Menu/@menu.latte'}
+					{* sidebar menu *}
+					{include '../../Core/Menu/@menu.user.latte'}
+					{include '../../Core/Menu/@menu.translate.latte'}
+					{include '../../Core/Menu/@menu.latte'}
 
-                </div>
-            </div>
-        </div>
-    </nav>
+				</div>
+			</div>
+		</div>
+	</nav>
 
-    <div class="container-fluid">
+	<div class="container-fluid">
 
-       {* content *}
-        <main role="main">
-            {snippet message}
-                {include '../../Core/Widget/@toast.latte', messages: $flashes}
-            {/snippet}
+	   {* content *}
+		<main role="main">
+			{snippet message}
+				{include '../../Core/Widget/@toast.latte', messages: $flashes}
+			{/snippet}
 
-            {* page content *}
-            {include content}
-        </main>
+			{* page content *}
+			{include content}
+		</main>
 
-        <!-- license rights, do not delete this piece of code -->
-        <footer class="text-end mt-3 mb-3">
-            <p class="text-muted">&copy Drago Extension</p>
-        </footer>
-    </div>
+		<!-- license rights, do not delete this piece of code -->
+		<footer class="text-end mt-3 mb-3">
+			<p class="text-muted">&copy Drago Extension</p>
+		</footer>
+	</div>
 </div>
 
 </body>
