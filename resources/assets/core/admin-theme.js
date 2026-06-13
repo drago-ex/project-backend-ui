@@ -1,12 +1,12 @@
 import PerfectScrollbar from "perfect-scrollbar";
-import { DashboardSkeleton } from "dashboard-skeleton-compostrap";
 import { Sidebar } from "sidebar-skeleton-compostrap";
 import { SidebarMenuApp } from "sidebar-menu-compostrap";
+import { initThemeSwitch } from "./theme-switch.js";
 
 export function initAdminTheme() {
 	Sidebar.init();
+	initThemeSwitch();
 	SidebarMenuApp.init();
-	DashboardSkeleton.init();
 	initScrollbar('.scrollbar');
 }
 

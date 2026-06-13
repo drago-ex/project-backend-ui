@@ -1,6 +1,6 @@
 @import "@fortawesome/fontawesome-free/css/all.css";
 @import "perfect-scrollbar/css/perfect-scrollbar.css";
-@import "sidebar-skeleton-compostrap/sidebar.css";
-@import "sidebar-menu-compostrap/sidebar-menu.css";
-@import "sidebar-menu-2-compostrap/sidebar-custom.css";
-@import "dashboard-skeleton-compostrap/dashboard.css";
+@import "sidebar-skeleton-compostrap/src/scss/sidebar";
+@import "sidebar-menu-compostrap/src/scss/sidebar-menu";
+@import "sidebar-menu-2-compostrap/src/scss/sidebar-custom";
+@import "dashboard-skeleton-compostrap/src/scss/dashboard";
