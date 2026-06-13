@@ -30,12 +30,12 @@ in this package's `composer.json`. To skip this package, set `"skip": true` unde
 
 ## Install npm
 ```bash
-npm install sidebar-skeleton-compostrap sidebar-menu-compostrap sidebar-menu-2-compostrap dashboard-skeleton-compostrap perfect-scrollbar
+npm install sidebar-skeleton-compostrap sidebar-menu-compostrap sidebar-menu-2-compostrap dashboard-skeleton-compostrap theme-switcher-compostrap perfect-scrollbar
 ```
 
 This package is based on [Dashboard Skeleton](https://github.com/compostrap/dashboard-skeleton).
 The theme switcher uses Bootstrap's global `data-bs-theme` attribute and is provided by
-`sidebar-skeleton-compostrap`.
+`theme-switcher-compostrap`.
 
 ## Use admin-theme.js
 The copied `assets/admin.js` file already initializes the admin theme:

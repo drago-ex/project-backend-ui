@@ -1,9 +1,11 @@
 {
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.1.0",
     "dashboard-skeleton-compostrap": "^3.0.0",
     "perfect-scrollbar": "^1.5.6",
     "sidebar-menu-2-compostrap": "^3.0.0",
     "sidebar-menu-compostrap": "^3.0.0",
-    "sidebar-skeleton-compostrap": "^3.0.0"
+    "sidebar-skeleton-compostrap": "^3.0.0",
+    "theme-switcher-compostrap": "^1.0.0"
   }
 }
