@@ -7,8 +7,8 @@ namespace App\UI\Backend;
 use App\Core\Menu\SidebarBuilder;
 use App\Core\Menu\SidebarItem;
 use App\Core\User\UserAccess;
-use App\UI\Sign\RequireLogged;
 use App\UI\BasePresenter;
+use App\UI\Sign\RequireLogged;
 use Nette\DI\Attributes\Inject;
 
 
