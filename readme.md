@@ -28,7 +28,7 @@ in this package's `composer.json`. To skip this package, set `"skip": true` unde
 > Warning: This package uses the `replace` section, which means some files will be **overwritten if they already exist**.
 > Avoid manual edits to those files; use the `skip` option if you need to manage them yourself.
 
-## Install npm
+## npm Installation
 ```bash
 npm install sidebar-skeleton-compostrap sidebar-menu-compostrap sidebar-menu-2-compostrap dashboard-skeleton-compostrap theme-switcher-compostrap perfect-scrollbar
 ```
