@@ -19,6 +19,11 @@ Integration of a basic template for administration.
 composer require drago-ex/project-backend-ui
 ```
 
+## npm Installation
+```bash
+npm install sidebar-skeleton-compostrap sidebar-menu-compostrap sidebar-menu-2-compostrap dashboard-skeleton-compostrap theme-switcher-compostrap perfect-scrollbar
+```
+
 ## Project files
 File copying is handled automatically by [drago-ex/project-tools](https://github.com/drago-ex/project-tools),
 which must be installed in your project. Without it, copy the files manually according to the `copy` section
@@ -27,11 +32,6 @@ in this package's `composer.json`. To skip this package, set `"skip": true` unde
 
 > Warning: This package uses the `replace` section, which means some files will be **overwritten if they already exist**.
 > Avoid manual edits to those files; use the `skip` option if you need to manage them yourself.
-
-## npm Installation
-```bash
-npm install sidebar-skeleton-compostrap sidebar-menu-compostrap sidebar-menu-2-compostrap dashboard-skeleton-compostrap theme-switcher-compostrap perfect-scrollbar
-```
 
 This package is based on [Dashboard Skeleton](https://github.com/compostrap/dashboard-skeleton).
 The theme switcher uses Bootstrap's global `data-bs-theme` attribute and is provided by
