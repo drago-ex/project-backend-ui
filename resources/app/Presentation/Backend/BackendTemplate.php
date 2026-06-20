@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Backend;
+namespace App\Presentation\Backend;
 
-use App\Core\Menu\SidebarItem;
 use App\Core\User\UserAccess;
-use App\UI\BaseTemplate;
+use App\Presentation\Backend\Accessory\Menu\SidebarItem;
+use App\Presentation\BaseTemplate;
 
 
 class BackendTemplate extends BaseTemplate

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Menu;
+namespace App\Presentation\Backend\Accessory\Menu;
 
 
 /**
@@ -29,7 +29,6 @@ class SidebarBuilder
 	private int $currentKey = 0;
 
 
-	/** Creates a new section (e.g., 'System'). */
 	public function addSection(string $title): self
 	{
 		$this->currentSection = $title;
@@ -42,7 +41,6 @@ class SidebarBuilder
 	}
 
 
-	/** Adds a main link to the current section. */
 	public function addItem(string $title, string $link): self
 	{
 		$this->structure[$this->currentSection][] = [
@@ -59,7 +57,6 @@ class SidebarBuilder
 	}
 
 
-	/** Adds an icon to the last added main item. */
 	public function setIcon(string $icon): self
 	{
 		$this->structure[$this->currentSection][$this->currentKey]['icon'] = $icon;
@@ -68,10 +65,9 @@ class SidebarBuilder
 	}
 
 
-	/** Sets "isAnyAllowed" type permissions for the main item. */
 	public function setAllowAny(string $resource, string ...$privileges): self
 	{
-		/** @var list<string> $allow */
+		/** @temp list<string> $allow */
 		$allow = [$resource, ...$privileges];
 
 		$this->structure[$this->currentSection][$this->currentKey]['allowAny'] = $allow;
@@ -108,7 +104,7 @@ class SidebarBuilder
 	 */
 	public function build(): array
 	{
-		/** @var array<string, list<SidebarItem>> $objectStructure */
+		/** @temp array<string, list<SidebarItem>> $objectStructure */
 		$objectStructure = [];
 
 		foreach ($this->structure as $sectionTitle => $items) {

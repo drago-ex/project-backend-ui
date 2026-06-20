@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Menu;
+namespace App\Presentation\Backend\Accessory\Menu;
 
 
-/** DTO representing a sub-menu item (2nd level navigation). */
 class SidebarSubItem
 {
 	/** @param list<string>|null $allow */

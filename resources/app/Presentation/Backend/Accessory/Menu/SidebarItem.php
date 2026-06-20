@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Menu;
+namespace App\Presentation\Backend\Accessory\Menu;
 
 
-/** DTO representing a main menu item (1st level navigation). */
 class SidebarItem
 {
 	/**

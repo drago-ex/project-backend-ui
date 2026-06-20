@@ -1,4 +1,4 @@
-{templateType App\UI\Backend\Admin\AdminTemplate}
+{templateType App\Presentation\Backend\Admin\AdminTemplate}
 {varType Drago\Application\UI\Flashes[] $flashes}
 {varType App\Core\User\UserAccess $userAccess}
 
@@ -70,9 +70,9 @@
 				<div class="scrollbar scrollbar-use-navbar">
 
 					{* sidebar menu *}
-					{include '../../Core/Menu/@menu.user.latte'}
-					{include '../../Core/Menu/@menu.translate.latte'}
-					{include '../../Core/Menu/@menu.latte'}
+					{include 'Accessory/Menu/@menu.user.latte'}
+					{include 'Accessory/Menu/@menu.translate.latte'}
+					{include 'Accessory/Menu/@menu.latte'}
 
 				</div>
 			</div>
@@ -84,7 +84,7 @@
 	   {* content *}
 		<main role="main">
 			{snippet message}
-				{include '../../Core/Widget/@toast.latte', messages: $flashes}
+				{include '../Accessory/Widget/@toast.latte', messages: $flashes}
 			{/snippet}
 
 			{* page content *}

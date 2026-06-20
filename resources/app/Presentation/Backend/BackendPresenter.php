@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Backend;
+namespace App\Presentation\Backend;
 
-use App\Core\Menu\SidebarBuilder;
-use App\Core\Menu\SidebarItem;
 use App\Core\User\UserAccess;
-use App\UI\BasePresenter;
-use App\UI\Sign\RequireLogged;
+use App\Presentation\Backend\Accessory\Menu\SidebarBuilder;
+use App\Presentation\Backend\Accessory\Menu\SidebarItem;
+use App\Presentation\BasePresenter;
+use App\Presentation\Sign\RequireLogged;
 use Nette\DI\Attributes\Inject;
 
 
