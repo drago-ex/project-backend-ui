@@ -67,7 +67,7 @@ class SidebarBuilder
 
 	public function setAllowAny(string $resource, string ...$privileges): self
 	{
-		/** @temp list<string> $allow */
+		/** @var list<string> $allow */
 		$allow = [$resource, ...$privileges];
 
 		$this->structure[$this->currentSection][$this->currentKey]['allowAny'] = $allow;
@@ -104,7 +104,7 @@ class SidebarBuilder
 	 */
 	public function build(): array
 	{
-		/** @temp array<string, list<SidebarItem>> $objectStructure */
+		/** @var array<string, list<SidebarItem>> $objectStructure */
 		$objectStructure = [];
 
 		foreach ($this->structure as $sectionTitle => $items) {
