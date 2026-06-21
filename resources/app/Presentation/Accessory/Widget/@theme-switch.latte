@@ -1,19 +1,15 @@
 {varType string $themeSwitchId}
-{varType ?string $class}
-{default $class = null}
-{default bool $text = false}
+{default bool $icon = false}
+{default ?string $class = null}
 <button
 		id="{$themeSwitchId}"
+		aria-label="{_'Toggle theme'}"
 		data-theme-switcher
-		data-theme-light-icon="fa-solid fa-sun"
-		data-theme-dark-icon="fa-solid fa-moon"
 		data-theme-light-label="{_'Light mode'}"
 		data-theme-dark-label="{_'Dark mode'}"
-		n:class="'theme-switcher', $class"
+		n:class="'btn btn-link theme-switcher text-decoration-none', $class"
 		type="button"
 >
-	<i data-theme-switcher-icon></i>
-	<span data-theme-switcher-label n:class="$text ? 'd-none'">
-		{_'Dark mode'}
-	</span>
+	<i n:if="$icon" data-theme-switcher-icon class="fa-solid fa-moon"></i>
+	<span data-theme-switcher-label>{_'Dark mode'}</span>
 </button>
