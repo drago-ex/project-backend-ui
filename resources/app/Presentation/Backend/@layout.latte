@@ -40,19 +40,18 @@
 
 			<div class="ms-auto d-flex align-items-center">
 
-				<!-- theme toggle -->
-				<button
-					class="btn btn-link nav-link theme-switcher py-2 px-0 px-lg-2 border-0 text-decoration-none"
-					id="theme-toggle"
-					type="button"
-					aria-label="{_'Toggle theme'}"
-					data-theme-switcher
-					data-theme-light-label="{_'Light mode'}"
-					data-theme-dark-label="{_'Dark mode'}"
-				>
-					<i data-theme-switcher-icon class="fa-solid fa-moon"></i>
-					<span data-theme-switcher-label>{_'Dark mode'}</span>
-				</button>
+				{embed '../Accessory/Widget/@dropdown.latte', name: 'Translate', icon: 'fa-solid fa-language', menu: 'end'}
+					{import '../Accessory/Widget/@lang-switch.latte'}
+					{block menu}
+						{include lang-switch, lang: 'cs', name: 'Czech', class: 'dropdown-item', tag: 'li'}
+						{include lang-switch, lang: 'en', name: 'English', class: 'dropdown-item', tag: 'li'}
+					{/block}
+				{/embed}
+
+				{include '../Accessory/Widget/@theme-switch.latte',
+					class: 'nav-link py-2 px-0 px-lg-2 border-0',
+					icon: true,
+				}
 
 				<!-- sidebar toggle -->
 				<button class="navbar-toggler btn btn-link border-0 ms-2" type="button" id="sidebar" aria-label="Toggle navigation">
@@ -71,7 +70,6 @@
 
 					{* sidebar menu *}
 					{include 'Accessory/Menu/@menu.user.latte'}
-					{include 'Accessory/Menu/@menu.translate.latte'}
 					{include 'Accessory/Menu/@menu.latte'}
 
 				</div>
