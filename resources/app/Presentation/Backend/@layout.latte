@@ -1,6 +1,6 @@
 {templateType App\Presentation\Backend\Admin\AdminTemplate}
 {varType Drago\Application\UI\Flashes[] $flashes}
-{varType App\Core\User\UserAccess $userAccess}
+{varType App\Core\Security\CurrentUser $currentUser}
 
 <!doctype html>
 <html lang="{$lang}" data-bs-theme="light">
@@ -13,7 +13,7 @@
 	{asset 'admin.js'}
 </head>
 
-<body n:if="$userAccess->isLoggedIn()">
+<body n:if="$currentUser->isLoggedIn()">
 
 <header>
 	<nav class="navbar navbar-expand-md bg-transparent fixed-top">

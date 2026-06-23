@@ -1,4 +1,4 @@
-{varType App\Core\User\UserAccess $userAccess}
+{varType App\Core\Security\CurrentUser $currentUser}
 {varType array<string, App\Presentation\Backend\Accessory\Menu\SidebarItem[]> $sidebarMenu}
 
 {foreach $sidebarMenu as $sectionTitle => $items}
@@ -10,7 +10,7 @@
 			<ul class="list-unstyled">
 				{foreach $items as $item}
 					{do $hasSubmenu = $item->items !== []}
-					{if $item->allowAny === null || $userAccess->isAnyAllowed(...$item->allowAny)}
+					{if $item->allowAny === null || $currentUser->isAnyAllowed(...$item->allowAny)}
 						<li>
 							{do $link = $hasSubmenu ? '#' : $presenter->link($item->link)}
 							{do $current = $presenter->isLinkCurrent($item->link)}
@@ -29,7 +29,7 @@
 							<!-- list items, second level -->
 							<ul n:if="$hasSubmenu" class="list-unstyled list-hidden">
 								{foreach $item->items as $subItem}
-									{if $subItem->allow === null || $userAccess->isAllowed(...$subItem->allow)}
+									{if $subItem->allow === null || $currentUser->isAllowed(...$subItem->allow)}
 										<li>
 											{do $current = $presenter->isLinkCurrent($subItem->link)}
 											<a n:href="$subItem->link" n:class="'list-link', $current ? link-current">

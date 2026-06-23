@@ -1,4 +1,4 @@
-{varType App\Core\User\UserAccess $userAccess}
+{varType App\Core\Security\CurrentUser $currentUser}
 
 <ul class="list list-unstyled mb-0">
 	<li class="list-item">
@@ -9,7 +9,7 @@
 			<li>
 				<a href="#" class="list-link link-arrow">
 					<span class="list-icon"><i class="fa-regular fa-user bell"></i></span>
-					{$userAccess->getUserIdentity()->username}
+					{$currentUser->getUserIdentity()->username}
 				</a>
 
 				<!-- list items, second level -->

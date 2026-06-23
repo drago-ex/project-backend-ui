@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Backend;
 
-use App\Core\User\UserAccess;
+use App\Core\Security\CurrentUser;
 use App\Presentation\Backend\Accessory\Menu\SidebarBuilder;
 use App\Presentation\Backend\Accessory\Menu\SidebarItem;
 use App\Presentation\BasePresenter;
@@ -18,13 +18,13 @@ class BackendPresenter extends BasePresenter
 	use RequireLogged;
 
 	#[Inject]
-	public UserAccess $userAccess;
+	public CurrentUser $currentUser;
 
 
 	protected function beforeRender(): void
 	{
 		parent::beforeRender();
-		$this->template->userAccess = $this->userAccess;
+		$this->template->currentUser = $this->currentUser;
 		$this->template->sidebarMenu = $this->getSidebarMenuStructure();
 	}
 
