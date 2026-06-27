@@ -1,6 +1,7 @@
 {templateType App\Presentation\Backend\Admin\AdminTemplate}
 {varType Drago\Application\UI\Flashes[] $flashes}
 {varType App\Core\Security\CurrentUser $currentUser}
+{import '../Accessory/Widget/@brand.latte'}
 
 <!doctype html>
 <html lang="{$lang}" data-bs-theme="light">
@@ -22,8 +23,10 @@
 
 			<!-- title -->
 			<a class="navbar-brand" n:href="Admin:">
-				<i class="fa-brands fa-medapps text-primary"></i>
-				<span n:block="brand" class="text-body-emphasis">Drago</span>
+				{include brand-logo}
+				<span class="text-body-emphasis">
+					{include brand}
+				</span>
 			</a>
 
 			<!-- navbar navigation -->
