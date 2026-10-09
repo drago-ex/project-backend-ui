@@ -23,6 +23,9 @@
 					"resources/app": "app"
 				}
 			}
+		},
+		"drago-translator": {
+			"translation": "app/Presentation/Backend/Admin/Translate"
 		}
 	},
 	"require-dev": {
