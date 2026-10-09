@@ -1,4 +1,5 @@
 # Drago Project Backend UI
+
 Integration of a basic template for administration.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/drago-ex/project-backend-ui/blob/main/license)
@@ -6,6 +7,7 @@ Integration of a basic template for administration.
 [![Coding Style](https://github.com/drago-ex/project-backend-ui/actions/workflows/coding-style.yml/badge.svg)](https://github.com/drago-ex/project-backend-ui/actions/workflows/coding-style.yml)
 
 ## Requirements
+
 - PHP >= 8.3
 - Nette Framework
 - Composer
@@ -15,16 +17,19 @@ Integration of a basic template for administration.
 - Drago Project core packages
 
 ## Installation
+
 ```bash
 composer require drago-ex/project-backend-ui
 ```
 
 ## npm Installation
+
 ```bash
 npm install sidebar-skeleton-compostrap sidebar-menu-compostrap sidebar-menu-2-compostrap dashboard-skeleton-compostrap theme-switcher-compostrap perfect-scrollbar
 ```
 
 ## Project files
+
 File copying is handled automatically by [drago-ex/project-tools](https://github.com/drago-ex/project-tools),
 which must be installed in your project. Without it, copy the files manually according to the `copy` section
 in this package's `composer.json`. To skip this package, set `"skip": true` under
@@ -38,6 +43,7 @@ The theme switcher uses Bootstrap's global `data-bs-theme` attribute and is prov
 `theme-switcher-compostrap`.
 
 ## Use admin-theme.js
+
 The copied `assets/admin.js` file already initializes the admin theme:
 
 ```js
@@ -49,6 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
 ```
 
 ## Creating a Menu
+
 The menu is typically created in a base presenter for the administration (e.g., `BackendPresenter`).
 
 ```php
@@ -83,6 +90,7 @@ protected function beforeRender(): void
 ```
 
 ## Menu Composition Guide
+
 - **addSection(string $title)** - (Optional) Creates a new group of items with a visible header (title). Use this when you want to visually separate different parts of the menu. If skipped, items will be grouped together without a title.
 
 - **addItem(string $title, string $link)** - Adds a primary link to the sidebar. If you only use this method, it renders as a direct link. If followed by `addSubItem`, it automatically becomes a dropdown toggle for the submenu.
@@ -92,6 +100,7 @@ protected function beforeRender(): void
 - **addSubItem(string $title, string $link, ?array $allow = null)** - Adds a child link to the last added primary item, automatically turning it into a submenu.
 
 ## Integration with project-permission
+
 If you are using the [project-permission](https://github.com/drago-ex/project-permission) package, the menu automatically handles visibility based on user privileges.
 
 - **setAllowAny(resource, ...privileges)** - The main item is displayed if the user has **at least one** of the specified privileges for the given resource.
