@@ -1,7 +1,7 @@
 {
 	"name": "drago-ex/project-backend-ui",
-	"type": "drago-tools-resource",
 	"description": "Integration of a basic template for administration.",
+	"type": "drago-tools-resource",
 	"require": {
 		"php": ">=8.3 <9",
 		"drago-ex/project-user": "^2.0",
@@ -10,6 +10,22 @@
 	},
 	"suggest": {
 		"drago-ex/translator": "Configures Latte translation support for bundled templates using translation macros."
+	},
+	"require-dev": {
+		"phpstan/phpstan": "^2.0",
+		"phpstan/phpstan-nette": "^2.0",
+		"drago-ex/project-tools": "^1.0"
+	},
+	"scripts": {
+		"phpstan": "phpstan analyse",
+		"post-install-cmd": [
+			"drago-install --dev",
+			"drago-clean"
+		],
+		"post-update-cmd": [
+			"drago-install --dev",
+			"drago-clean"
+		]
 	},
 	"extra": {
 		"drago-tools": {
@@ -27,21 +43,5 @@
 		"drago-translator": {
 			"translation": "app/Presentation/Backend/Admin/Translate"
 		}
-	},
-	"require-dev": {
-		"phpstan/phpstan": "^2.0",
-		"phpstan/phpstan-nette": "^2.0",
-		"drago-ex/project-tools": "^1.0"
-	},
-	"scripts": {
-		"phpstan": "phpstan analyse",
-		"post-install-cmd": [
-			"drago-install --dev",
-			"drago-clean"
-		],
-		"post-update-cmd": [
-			"drago-install --dev",
-			"drago-clean"
-		]
 	}
 }
