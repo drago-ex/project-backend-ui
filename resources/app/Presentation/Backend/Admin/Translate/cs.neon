@@ -1,13 +1,8 @@
 # default translate
-"Close": "Zavřít"
 "Translate": "Překlad"
 
 # backend
+"User": "Uživatel"
 "Sign out": "Odhlásit se"
-"Dashboard": "Administrace"
+"Dashboard": "Přehled"
 "Welcome to the administration welcome page.": "Vítejte na úvodní stránce administrace."
-"Toggle theme": "Přepnout motiv"
-"Light mode": "Světlý režim"
-"Dark mode": "Tmavý režim"
-"Switch to light": "Přepnout na světlý režim"
-"Switch to dark": "Přepnout na tmavý režim"
