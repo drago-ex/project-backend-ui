@@ -7,7 +7,7 @@
 		"php": ">=8.3 <9",
 		"drago-ex/project-user": "^2.0",
 		"drago-ex/project-backend": "^2.0",
-		"drago-ex/project-auth": "^2.0"
+		"drago-ex/project-account": "^1.0"
 	},
 	"suggest": {
 		"drago-ex/translator": "Configures Latte translation support for bundled templates using translation macros."
