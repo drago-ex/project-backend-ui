@@ -20,13 +20,11 @@
 	"extra": {
 		"drago-tools": {
 			"install": {
-				"copy": {
-					"resources/assets": "assets"
-				},
 				"replace-once": true,
 				"replace-priority": 200,
 				"replace": {
-					"resources/app": "app"
+					"resources/app": "app",
+					"resources/assets": "assets"
 				}
 			}
 		},
