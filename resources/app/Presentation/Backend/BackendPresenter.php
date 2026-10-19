@@ -6,8 +6,7 @@ namespace App\Presentation\Backend;
 
 use App\Core\Security\CurrentUser;
 use App\Presentation\Accessory\RequireLogged;
-use App\Presentation\Backend\Accessory\Menu\SidebarBuilder;
-use App\Presentation\Backend\Accessory\Menu\SidebarItem;
+use App\Presentation\Backend\Accessory\Menu\SidebarMenu;
 use App\Presentation\BasePresenter;
 use Nette\DI\Attributes\Inject;
 
@@ -20,26 +19,15 @@ class BackendPresenter extends BasePresenter
 	#[Inject]
 	public CurrentUser $currentUser;
 
+	/** Items come from the `sidebar` parameter, see SidebarMenu. */
+	#[Inject]
+	public SidebarMenu $sidebarMenu;
+
 
 	protected function beforeRender(): void
 	{
 		parent::beforeRender();
 		$this->template->currentUser = $this->currentUser;
-		$this->template->sidebarMenu = $this->getSidebarMenuStructure();
-	}
-
-
-	/**
-	 * Generates the sidebar menu structure.
-	 * @return array<string, SidebarItem[]>
-	 */
-	private function getSidebarMenuStructure(): array
-	{
-		$builder = new SidebarBuilder;
-		$builder->addSection('System')
-			->addItem('Dashboard', 'Admin:')
-			->setIcon('fa-solid fa-mug-hot bell');
-
-		return $builder->build();
+		$this->template->sidebarMenu = $this->sidebarMenu->build();
 	}
 }

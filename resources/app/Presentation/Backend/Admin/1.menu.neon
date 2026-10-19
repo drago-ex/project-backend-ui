@@ -1,0 +1,8 @@
+# The administration menu; packages add their items in their own N.menu.neon next to their presenter (higher numbers load later).
+parameters:
+	sidebar:
+		System:
+			- {title: Dashboard, link: 'Admin:', icon: fa-solid fa-mug-hot bell}
+
+services:
+	- App\Presentation\Backend\Accessory\Menu\SidebarMenu(%sidebar%)
