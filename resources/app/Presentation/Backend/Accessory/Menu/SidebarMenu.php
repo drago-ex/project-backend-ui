@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Presentation\Backend\Accessory\Menu;
 
 use App\Core\Security\CurrentUser;
-use Nette\InvalidStateException;
 
 
 /**
@@ -93,20 +92,11 @@ class SidebarMenu
 
 
 	/**
-	 * Any of the privileges on the resource ([resource, privilege, ...]). Without an authorizator (drago-ex/permission
-	 * is optional) every item is shown; a resource the ACL does not know is denied, as the Authorization trait does.
+	 * Any of the privileges on the resource ([resource, privilege, ...]), see CurrentUser::isPermitted().
 	 * @param list<string>|null $allow
 	 */
 	private function isAllowed(CurrentUser $user, ?array $allow): bool
 	{
-		if ($allow === null || $user->getAuthorizatorIfExists() === null) {
-			return true;
-		}
-
-		try {
-			return $user->isAnyAllowed(...$allow);
-		} catch (InvalidStateException) {
-			return false;
-		}
+		return $allow === null || $user->isPermitted(...$allow);
 	}
 }
