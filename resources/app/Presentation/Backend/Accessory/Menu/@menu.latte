@@ -1,4 +1,4 @@
-{varType App\Core\Security\CurrentUser $currentUser}
+{* items the user may not open are already left out by SidebarMenu::build() *}
 {varType array<string, App\Presentation\Backend\Accessory\Menu\SidebarItem[]> $sidebarMenu}
 
 {foreach $sidebarMenu as $sectionTitle => $items}
@@ -10,37 +10,33 @@
 			<ul class="list-unstyled">
 				{foreach $items as $item}
 					{do $hasSubmenu = $item->items !== []}
-					{if $item->allowAny === null || $currentUser->isAnyAllowed(...$item->allowAny)}
-						<li>
-							{do $link = $hasSubmenu ? '#' : $presenter->link($item->link)}
-							{do $current = $presenter->isLinkCurrent($item->link)}
-							{if $hasSubmenu}
-								{foreach $item->items as $subItem}
-									{do $current = $current || $presenter->isLinkCurrent($subItem->link)}
-								{/foreach}
-							{/if}
-							<a href="{$link}" n:class="'list-link', $hasSubmenu ? 'link-arrow', $current ? 'link-current'">
-								<span n:if="$item->icon" class="list-icon">
-									<i class="{(string) $item->icon}"></i>
-								</span>
-								{_$item->title}
-							</a>
+					<li>
+						{do $link = $hasSubmenu ? '#' : $presenter->link($item->link)}
+						{do $current = $presenter->isLinkCurrent($item->link)}
+						{if $hasSubmenu}
+							{foreach $item->items as $subItem}
+								{do $current = $current || $presenter->isLinkCurrent($subItem->link)}
+							{/foreach}
+						{/if}
+						<a href="{$link}" n:class="'list-link', $hasSubmenu ? 'link-arrow', $current ? 'link-current'">
+							<span n:if="$item->icon" class="list-icon">
+								<i class="{$item->icon}"></i>
+							</span>
+							{_$item->title}
+						</a>
 
-							<!-- list items, second level -->
-							<ul n:if="$hasSubmenu" class="list-unstyled list-hidden">
-								{foreach $item->items as $subItem}
-									{if $subItem->allow === null || $currentUser->isAllowed(...$subItem->allow)}
-										<li>
-											{do $current = $presenter->isLinkCurrent($subItem->link)}
-											<a n:href="$subItem->link" n:class="'list-link', $current ? link-current">
-												{_$subItem->title}
-											</a>
-										</li>
-									{/if}
-								{/foreach}
-							</ul>
-						</li>
-					{/if}
+						<!-- list items, second level -->
+						<ul n:if="$hasSubmenu" class="list-unstyled list-hidden">
+							{foreach $item->items as $subItem}
+								<li>
+									{do $current = $presenter->isLinkCurrent($subItem->link)}
+									<a n:href="$subItem->link" n:class="'list-link', $current ? link-current">
+										{_$subItem->title}
+									</a>
+								</li>
+							{/foreach}
+						</ul>
+					</li>
 				{/foreach}
 			</ul>
 		</li>

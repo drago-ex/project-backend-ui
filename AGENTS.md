@@ -19,6 +19,8 @@ Use this file as package-specific guidance when working in this repository. Keep
 ## Key Parts
 - `resources/app` and `resources/assets` are installed by `replace` (`replace-once`, `replace-priority` 200), so they override the files `drago-ex/project-backend` copies first (e.g. `assets/admin.js`, `assets/admin.scss`); `drago-ex/project-preset` (priority 300) can override them again. A `copy` section would be skipped for files that already exist.
 
+- The menu: every package adds items to the `sidebar` parameter in its own `N.menu.neon`; `SidebarMenu::build($currentUser)` (called in `BackendPresenter`) leaves out items the user may not open (`allowAny`, sub-item `allow`, both through `CurrentUser::isAnyAllowed()`), so `@menu.latte` only prints. Without an authorizator all items are shown; an unknown ACL resource is denied (like the Authorization trait).
+
 ## Dependencies
 
 Composer constraints describe the package contract. Before changing integration behavior, inspect the source and the actual call sites in this package; do not infer runtime usage solely from dependency declarations.

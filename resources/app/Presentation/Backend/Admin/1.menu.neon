@@ -2,7 +2,7 @@
 parameters:
 	sidebar:
 		System:
-			- {title: Dashboard, link: 'Admin:', icon: fa-solid fa-mug-hot bell}
+			- {title: Dashboard, link: 'Admin:', icon: fa-solid fa-mug-hot bell, allowAny: [Backend:Admin, default-read]}
 
 services:
 	- App\Presentation\Backend\Accessory\Menu\SidebarMenu(%sidebar%)

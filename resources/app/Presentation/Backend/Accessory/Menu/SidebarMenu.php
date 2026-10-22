@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Presentation\Backend\Accessory\Menu;
 
+use App\Core\Security\CurrentUser;
+use Nette\InvalidStateException;
+
 
 /**
  * The administration menu from the `sidebar` parameter. Each package adds its items in its own N.menu.neon,
@@ -32,8 +35,12 @@ class SidebarMenu
 	}
 
 
-	/** @return array<string, list<SidebarItem>> */
-	public function build(): array
+	/**
+	 * With a user, only the items the user may open are returned (allowAny of an item, allow of a sub-item);
+	 * an item whose sub-items are all hidden is hidden too.
+	 * @return array<string, list<SidebarItem>>
+	 */
+	public function build(?CurrentUser $user = null): array
 	{
 		$builder = new SidebarBuilder;
 		foreach ($this->sections as $section => $items) {
@@ -52,6 +59,54 @@ class SidebarMenu
 			}
 		}
 
-		return $builder->build();
+		$menu = $builder->build();
+		return $user === null ? $menu : $this->filter($menu, $user);
+	}
+
+
+	/**
+	 * @param array<string, list<SidebarItem>> $menu
+	 * @return array<string, list<SidebarItem>>
+	 */
+	private function filter(array $menu, CurrentUser $user): array
+	{
+		$visible = [];
+		foreach ($menu as $section => $items) {
+			foreach ($items as $item) {
+				if (!$this->isAllowed($user, $item->allowAny)) {
+					continue;
+				}
+
+				$hasItems = $item->items !== [];
+				$item->items = array_values(array_filter(
+					$item->items,
+					fn(SidebarSubItem $subItem): bool => $this->isAllowed($user, $subItem->allow),
+				));
+				if (!$hasItems || $item->items !== []) {
+					$visible[$section][] = $item;
+				}
+			}
+		}
+
+		return $visible;
+	}
+
+
+	/**
+	 * Any of the privileges on the resource ([resource, privilege, ...]). Without an authorizator (drago-ex/permission
+	 * is optional) every item is shown; a resource the ACL does not know is denied, as the Authorization trait does.
+	 * @param list<string>|null $allow
+	 */
+	private function isAllowed(CurrentUser $user, ?array $allow): bool
+	{
+		if ($allow === null || $user->getAuthorizatorIfExists() === null) {
+			return true;
+		}
+
+		try {
+			return $user->isAnyAllowed(...$allow);
+		} catch (InvalidStateException) {
+			return false;
+		}
 	}
 }

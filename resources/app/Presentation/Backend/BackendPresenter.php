@@ -28,6 +28,6 @@ class BackendPresenter extends BasePresenter
 	{
 		parent::beforeRender();
 		$this->template->currentUser = $this->currentUser;
-		$this->template->sidebarMenu = $this->sidebarMenu->build();
+		$this->template->sidebarMenu = $this->sidebarMenu->build($this->currentUser);
 	}
 }

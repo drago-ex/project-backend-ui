@@ -69,3 +69,134 @@ test('Configs of the packages are merged in the order they are loaded', function
 test('An empty sidebar gives an empty menu', function () {
 	Assert::same([], (new SidebarMenu([]))->build());
 });
+
+
+function createUser(?Nette\Security\Authorizator $authorizator, string ...$roles): App\Core\Security\CurrentUser
+{
+	$storage = new class implements Nette\Security\UserStorage {
+		private ?Nette\Security\IIdentity $identity = null;
+
+
+		public function saveAuthentication(Nette\Security\IIdentity $identity): void
+		{
+			$this->identity = $identity;
+		}
+
+
+		public function clearAuthentication(bool $clearIdentity): void
+		{
+		}
+
+
+		public function getState(): array
+		{
+			return [$this->identity !== null, $this->identity, null];
+		}
+
+
+		public function setExpiration(?string $expire, bool $clearIdentity): void
+		{
+		}
+	};
+
+	$user = new App\Core\Security\CurrentUser($storage, null, $authorizator);
+	$user->login(new Nette\Security\SimpleIdentity(1, $roles));
+	return $user;
+}
+
+
+function createAcl(): Nette\Security\Permission
+{
+	$acl = new Nette\Security\Permission;
+	$acl->addRole('admin');
+	$acl->addRole('editor');
+	foreach (['Backend:Admin', 'Backend:Settings', 'Backend:Blog'] as $resource) {
+		$acl->addResource($resource);
+	}
+
+	$acl->allow('admin');
+	$acl->allow('editor', 'Backend:Blog', ['default-read', 'comments-read']);
+	return $acl;
+}
+
+
+/** @return list<string> titles of the items and sub-items, e.g. Blog > Comments */
+function titles(array $menu): array
+{
+	$titles = [];
+	foreach ($menu as $items) {
+		foreach ($items as $item) {
+			$titles[] = $item->title;
+			foreach ($item->items as $subItem) {
+				$titles[] = $item->title . ' > ' . $subItem->title;
+			}
+		}
+	}
+
+	return $titles;
+}
+
+
+function createRestrictedMenu(): SidebarMenu
+{
+	return new SidebarMenu([
+		'System' => [
+			['title' => 'Dashboard', 'link' => 'Admin:', 'allowAny' => ['Backend:Admin', 'default-read']],
+			['title' => 'Settings', 'link' => 'Settings:', 'allowAny' => ['Backend:Settings', 'default-read']],
+			['title' => 'Unknown', 'link' => 'Unknown:', 'allowAny' => ['Backend:Unknown', 'default-read']],
+			['title' => 'Help', 'link' => 'Help:'],
+		],
+		'Content' => [
+			[
+				'title' => 'Blog',
+				'link' => 'Blog:*',
+				'allowAny' => ['Backend:Blog', 'default-read', 'categories-read', 'comments-read'],
+				'items' => [
+					['title' => 'Articles', 'link' => 'Blog:', 'allow' => ['Backend:Blog', 'default-read']],
+					['title' => 'Categories', 'link' => 'Blog:categories', 'allow' => ['Backend:Blog', 'categories-read']],
+					['title' => 'Comments', 'link' => 'Blog:comments', 'allow' => ['Backend:Blog', 'comments-read']],
+				],
+			],
+		],
+	]);
+}
+
+
+test('With a user, only the items the user may open are shown', function () {
+	$menu = createRestrictedMenu();
+
+	Assert::same(
+		['Help', 'Blog', 'Blog > Articles', 'Blog > Comments'],
+		titles($menu->build(createUser(createAcl(), 'editor'))),
+	);
+
+	// A resource the ACL does not know is denied, like the Authorization trait does.
+	Assert::same(
+		['Dashboard', 'Settings', 'Help', 'Blog', 'Blog > Articles', 'Blog > Categories', 'Blog > Comments'],
+		titles($menu->build(createUser(createAcl(), 'admin'))),
+	);
+});
+
+
+test('An item whose sub-items are all hidden is hidden too', function () {
+	$acl = createAcl();
+	$acl->addRole('writer');
+	$acl->allow('writer', 'Backend:Blog', 'categories-write');
+	$menu = new SidebarMenu([
+		'Content' => [[
+			'title' => 'Blog',
+			'link' => 'Blog:*',
+			'items' => [['title' => 'Articles', 'link' => 'Blog:', 'allow' => ['Backend:Blog', 'default-read']]],
+		]],
+	]);
+
+	Assert::same([], $menu->build(createUser($acl, 'writer')));
+});
+
+
+test('Without an authorizator (drago-ex/permission is optional) every item is shown', function () {
+	Assert::same(
+		['Dashboard', 'Settings', 'Unknown', 'Help', 'Blog', 'Blog > Articles', 'Blog > Categories', 'Blog > Comments'],
+		titles(createRestrictedMenu()->build(createUser(null, 'editor'))),
+	);
+});

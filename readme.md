@@ -88,3 +88,7 @@ If you are using the [project-permission](https://github.com/drago-ex/project-pe
 - **allowAny: [resource, ...privileges]** - The main item is displayed if the user has **at least one** of the specified privileges for the given resource.
 
 - **allow: [resource, privilege]** (sub-item) - The sub-item is displayed only if the user has the **exact** privilege for the given resource.
+
+An item whose sub-items are all hidden is hidden too, and a resource the ACL does not know counts as denied.
+Without an authorizator (no drago-ex/permission) all items are shown. Opening a page needs the `{action}-read`
+privilege of its presenter, so an item for a page uses e.g. `allowAny: [Backend:Settings, default-read]`.
