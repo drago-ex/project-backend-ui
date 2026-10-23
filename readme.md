@@ -1,5 +1,7 @@
 # Drago Project Backend UI
 
+English | [Čeština](readme.cs.md)
+
 Integration of a basic template for administration.
 
 [![PHP version](https://badge.fury.io/ph/drago-ex%2Fproject-backend-ui.svg)](https://badge.fury.io/ph/drago-ex%2Fproject-backend-ui)
