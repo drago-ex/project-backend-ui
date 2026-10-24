@@ -65,12 +65,12 @@ Nette soubory spojuje v pořadí jejich čísel (`Admin/1.menu.neon` s nástěnk
 ```neon
 parameters:
 	sidebar:
-		# nadpis sekce, položky stejné sekce z jiných souborů se připojí
+		# a section title, items of the same section from other files are appended
 		Content:
-			# jednoduchý odkaz s ikonou
+			# a simple link with an icon
 			- {title: Static pages, link: 'Page:', icon: fa-regular fa-file-lines bell}
 
-			# položka s podmenu, zobrazí se, když má uživatel aspoň jedno z privilegií
+			# an item with a submenu, shown when the user has at least one of the privileges
 			-
 				title: Permissions
 				link: 'Permission:*'

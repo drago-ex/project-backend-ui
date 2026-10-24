@@ -1,7 +1,9 @@
-{* items the user may not open are already left out by SidebarMenu::build() *}
+{* items the user may not open are already left out by SidebarMenu::build(); the numbers are snippets named by
+   their position, redrawn by the snippetArea sidebarBadges of the layout after AJAX requests *}
 {varType array<string, App\Presentation\Backend\Accessory\Menu\SidebarItem[]> $sidebarMenu}
 
 {foreach $sidebarMenu as $sectionTitle => $items}
+	{var int $sectionNo = $iterator->counter}
 	<ul class="list list-unstyled mb-0">
 		<li class="list-item">
 			<p class="list-title text-uppercase">{_$sectionTitle}</p>
@@ -9,6 +11,7 @@
 			<!-- list items, first level -->
 			<ul class="list-unstyled">
 				{foreach $items as $item}
+					{var int $itemNo = $iterator->counter}
 					{do $hasSubmenu = $item->items !== []}
 					<li>
 						{do $link = $hasSubmenu ? '#' : $presenter->link($item->link)}
@@ -23,19 +26,18 @@
 								<i class="{$item->icon}"></i>
 							</span>
 							{_$item->title}
-							{var string $badgeSnippet = $item->getBadgeSnippet()}
-							<span n:snippet="$badgeSnippet"><span n:if="$item->badge" class="badge rounded-pill text-bg-warning ms-1">{$item->badge}</span></span>
+							<span n:snippet="badge-{$sectionNo}-{$itemNo}"><span n:if="$item->badge" class="badge rounded-pill text-bg-warning ms-1">{$item->badge}</span></span>
 						</a>
 
 						<!-- list items, second level -->
 						<ul n:if="$hasSubmenu" class="list-unstyled list-hidden">
 							{foreach $item->items as $subItem}
+								{var int $subItemNo = $iterator->counter}
 								<li>
 									{do $current = $presenter->isLinkCurrent($subItem->link)}
 									<a n:href="$subItem->link" n:class="'list-link', $current ? link-current">
 										{_$subItem->title}
-										{var string $badgeSnippet = $subItem->getBadgeSnippet()}
-										<span n:snippet="$badgeSnippet"><span n:if="$subItem->badge" class="badge rounded-pill text-bg-warning ms-1">{$subItem->badge}</span></span>
+										<span n:snippet="badge-{$sectionNo}-{$itemNo}-{$subItemNo}"><span n:if="$subItem->badge" class="badge rounded-pill text-bg-warning ms-1">{$subItem->badge}</span></span>
 									</a>
 								</li>
 							{/foreach}

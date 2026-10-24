@@ -20,11 +20,4 @@ class SidebarItem
 		public int $badge = 0,
 	) {
 	}
-
-
-	/** Name of the snippet of the number, so it can be redrawn without the link (see BackendPresenter). */
-	public function getBadgeSnippet(): string
-	{
-		return 'badge-' . substr(md5($this->link), 0, 12);
-	}
 }

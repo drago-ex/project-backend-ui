@@ -21,8 +21,11 @@
 	<nav class="navbar navbar-expand-md bg-transparent fixed-top">
 		<div class="container-fluid">
 
+			{* the dashboard is linked only for users who may open it (the same check as its menu item) *}
+			{var bool $dashboard = $currentUser->isPermitted('Backend:Admin', 'default-read')}
+
 			<!-- title -->
-			<a class="navbar-brand" n:href="Admin:">
+			<a class="navbar-brand" n:attr="href: $dashboard ? $presenter->link('Admin:')" n:tag="$dashboard ? 'a' : 'span'">
 				{include brand-logo}
 				<span class="text-body-emphasis">
 					{include brand}
@@ -34,7 +37,7 @@
 
 				<!-- breadcrumb -->
 				<ul class="navbar-nav navbar-nav-breadcrumb">
-					<li class="nav-item"><a class="nav-link" n:href="Admin:">{_'Dashboard'}</a></li>
+					<li n:if="$dashboard" class="nav-item"><a class="nav-link" n:href="Admin:">{_'Dashboard'}</a></li>
 					<li n:if="!$presenter->isLinkCurrent('Admin:default')" class="nav-item">
 						<span class="nav-link disabled" aria-current="page">{ifset title}{include title|stripHtml|firstUpper}{/ifset}</span>
 					</li>

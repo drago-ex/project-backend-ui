@@ -32,18 +32,11 @@ class BackendPresenter extends BasePresenter
 		$this->template->notifications = $this->sidebarMenu->getNotifications($menu);
 
 		// what waits for the user may change by any AJAX request (e.g. approving a comment), so the bell and
-		// the numbers of the menu are sent again; the menu links stay, their scripts are bound to them
+		// the numbers of the menu (snippets inside the area) are sent again; the menu links stay, their scripts
+		// are bound to them
 		if ($this->isAjax()) {
 			$this->redrawControl('notifications');
 			$this->redrawControl('sidebarBadges');
-			foreach ($menu as $items) {
-				foreach ($items as $item) {
-					$this->redrawControl($item->getBadgeSnippet());
-					foreach ($item->items as $subItem) {
-						$this->redrawControl($subItem->getBadgeSnippet());
-					}
-				}
-			}
 		}
 	}
 }

@@ -83,7 +83,8 @@ class SidebarMenu
 
 	/**
 	 * The entries of the badge services for the bell in the navbar (label translated by the template), only those
-	 * whose link is in the built menu, so the user sees only what the user may open.
+	 * whose link is a page of the built menu (an item without sub-items or a sub-item, not a group like
+	 * "Permission:*"), so the user sees only what the user may open and the menu shows the same numbers.
 	 * @param array<string, list<SidebarItem>> $menu
 	 * @return list<Notification>
 	 */
@@ -92,7 +93,10 @@ class SidebarMenu
 		$links = [];
 		foreach ($menu as $items) {
 			foreach ($items as $item) {
-				$links[$item->link] = true;
+				if ($item->items === []) {
+					$links[$item->link] = true;
+				}
+
 				foreach ($item->items as $subItem) {
 					$links[$subItem->link] = true;
 				}
