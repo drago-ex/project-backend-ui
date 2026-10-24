@@ -94,3 +94,12 @@ Pokud používáte balíček [project-permission](https://github.com/drago-ex/pr
 Položka, jejíž podpoložky jsou všechny skryté, se skryje také, a zdroj, který ACL nezná, se počítá jako zamítnutý.
 Bez autorizátoru (bez drago-ex/permission) se zobrazí všechny položky. Otevření stránky vyžaduje privilegium `{action}-read`
 jejího presenteru, takže položka pro stránku používá například `allowAny: [Backend:Settings, default-read]`.
+
+Privilegium přehledu administrace (`Backend:Admin`, `default-read`) je v `migrations-permission/`. Naimportujte ho ručně,
+aby šlo přidělit roli, která má vstoupit do administrace (bez něj se role po přihlášení dostane na úvodní stránku webu):
+
+```bash
+php vendor/bin/migration db:migrate vendor/drago-ex/project-backend-ui/migrations-permission
+```
+
+Webový instalátor z [project-install](https://github.com/drago-ex/project-install) ho naimportuje sám.

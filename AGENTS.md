@@ -21,6 +21,8 @@ Use this file as package-specific guidance when working in this repository. Keep
 
 - The menu: every package adds items to the `sidebar` parameter in its own `N.menu.neon`; `SidebarMenu::build($currentUser)` (called in `BackendPresenter`) leaves out items the user may not open (`allowAny`, sub-item `allow`, both through `CurrentUser::isPermitted()`), so `@menu.latte` only prints. Without an authorizator all items are shown; an unknown ACL resource is denied (like the Authorization trait).
 
+- `migrations-permission/001_admin_resources.sql` adds the dashboard privilege (`Backend:Admin`, `default-read`) to the `resources` table of drago-ex/project-permission (`INSERT IGNORE`), imported by hand like in project-blog; its description is translated in `Backend/Admin/Translate/cs.neon`. The dashboard presenter itself is in project-backend, but its menu item and translations are here. Executed files must not change; a new privilege needs a new file.
+
 ## Dependencies
 
 Composer constraints describe the package contract. Before changing integration behavior, inspect the source and the actual call sites in this package; do not infer runtime usage solely from dependency declarations.

@@ -94,3 +94,12 @@ If you are using the [project-permission](https://github.com/drago-ex/project-pe
 An item whose sub-items are all hidden is hidden too, and a resource the ACL does not know counts as denied.
 Without an authorizator (no drago-ex/permission) all items are shown. Opening a page needs the `{action}-read`
 privilege of its presenter, so an item for a page uses e.g. `allowAny: [Backend:Settings, default-read]`.
+
+The privilege of the dashboard (`Backend:Admin`, `default-read`) is in `migrations-permission/`. Import it by hand,
+so it can be given to a role that should enter the administration (without it the role goes to the front page after signing in):
+
+```bash
+php vendor/bin/migration db:migrate vendor/drago-ex/project-backend-ui/migrations-permission
+```
+
+The web installer of [project-install](https://github.com/drago-ex/project-install) imports it itself.
