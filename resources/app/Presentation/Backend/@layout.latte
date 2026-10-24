@@ -43,6 +43,11 @@
 
 			<div class="ms-auto d-flex align-items-center">
 
+				{* redrawn after every AJAX request (BackendPresenter), e.g. after approving a comment *}
+				<div n:snippet="notifications" class="d-flex">
+					{include 'Accessory/Menu/@notifications.latte', notifications: $notifications}
+				</div>
+
 				{embed '../Accessory/Widget/@dropdown.latte', name: 'Translate', icon: 'fa-solid fa-language', menu: 'end'}
 					{import '../Accessory/Widget/@lang-switch.latte'}
 					{block menu}
@@ -73,7 +78,10 @@
 
 					{* sidebar menu *}
 					{include 'Accessory/Menu/@menu.user.latte'}
-					{include 'Accessory/Menu/@menu.latte'}
+					{* only the numbers of the items are redrawn after AJAX requests, the links keep their scripts *}
+					{snippetArea sidebarBadges}
+						{include 'Accessory/Menu/@menu.latte'}
+					{/snippetArea}
 
 				</div>
 			</div>

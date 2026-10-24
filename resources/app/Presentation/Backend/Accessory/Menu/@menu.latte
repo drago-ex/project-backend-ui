@@ -23,6 +23,8 @@
 								<i class="{$item->icon}"></i>
 							</span>
 							{_$item->title}
+							{var string $badgeSnippet = $item->getBadgeSnippet()}
+							<span n:snippet="$badgeSnippet"><span n:if="$item->badge" class="badge rounded-pill text-bg-warning ms-1">{$item->badge}</span></span>
 						</a>
 
 						<!-- list items, second level -->
@@ -32,6 +34,8 @@
 									{do $current = $presenter->isLinkCurrent($subItem->link)}
 									<a n:href="$subItem->link" n:class="'list-link', $current ? link-current">
 										{_$subItem->title}
+										{var string $badgeSnippet = $subItem->getBadgeSnippet()}
+										<span n:snippet="$badgeSnippet"><span n:if="$subItem->badge" class="badge rounded-pill text-bg-warning ms-1">{$subItem->badge}</span></span>
 									</a>
 								</li>
 							{/foreach}

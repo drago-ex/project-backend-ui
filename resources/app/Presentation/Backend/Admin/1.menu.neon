@@ -5,4 +5,5 @@ parameters:
 			- {title: Dashboard, link: 'Admin:', icon: fa-solid fa-mug-hot bell, allowAny: [Backend:Admin, default-read]}
 
 services:
-	- App\Presentation\Backend\Accessory\Menu\SidebarMenu(%sidebar%)
+	# numbers next to the items come from services tagged sidebar.badge (see SidebarMenu)
+	- App\Presentation\Backend\Accessory\Menu\SidebarMenu(%sidebar%, tagged(sidebar.badge))

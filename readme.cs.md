@@ -83,6 +83,26 @@ parameters:
 Nadpisy se překládají, přidejte je proto do překladů svého balíčku. Menu lze sestavit i
 v PHP pomocí `SidebarBuilder` (`addSection`, `addItem`, `setIcon`, `setAllowAny`, `addSubItem`).
 
+Co čeká na uživatele (např. komentáře ke schválení, nové objednávky), dodají služby se štítkem `sidebar.badge`:
+objekt s `__invoke()`, který vrací záznamy s odkazem menu, číslem a popiskem. Položka menu s tím odkazem ukazuje součet
+jeho čísel (položka s podmenu součet svých podpoložek) a zvonek v navbaru (`Accessory/Menu/@notifications.latte`)
+celkový počet s (přeloženými) popisky záznamů, které uživatel smí otevřít; když nic nečeká, není vidět.
+
+```neon
+services:
+	- {factory: App\Presentation\Backend\Blog\CommentBadge, tags: [sidebar.badge], autowired: no}
+```
+
+```php
+final class CommentBadge
+{
+	public function __invoke(): array
+	{
+		return [['link' => 'Blog:', 'count' => 3, 'label' => 'Comments waiting for approval']];
+	}
+}
+```
+
 ## Integrace s project-permission
 
 Pokud používáte balíček [project-permission](https://github.com/drago-ex/project-permission), menu samo řídí viditelnost podle privilegií uživatele.

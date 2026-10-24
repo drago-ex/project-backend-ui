@@ -83,6 +83,27 @@ parameters:
 Titles are translated, so add them to the translations of your package. The menu can also be built
 in PHP with `SidebarBuilder` (`addSection`, `addItem`, `setIcon`, `setAllowAny`, `addSubItem`).
 
+What waits for the user (e.g. comments to approve, new orders) comes from services tagged `sidebar.badge`: an
+object with `__invoke()` returning entries with the menu link, the number and a label. The menu item of the link
+shows the sum of its numbers (an item with a submenu the sum of its sub-items), and a bell in the navbar
+(`Accessory/Menu/@notifications.latte`) shows the total with the labels (translated) of the entries the user may
+open; it is hidden when nothing waits.
+
+```neon
+services:
+	- {factory: App\Presentation\Backend\Blog\CommentBadge, tags: [sidebar.badge], autowired: no}
+```
+
+```php
+final class CommentBadge
+{
+	public function __invoke(): array
+	{
+		return [['link' => 'Blog:', 'count' => 3, 'label' => 'Comments waiting for approval']];
+	}
+}
+```
+
 ## Integration with project-permission
 
 If you are using the [project-permission](https://github.com/drago-ex/project-permission) package, the menu automatically handles visibility based on user privileges.

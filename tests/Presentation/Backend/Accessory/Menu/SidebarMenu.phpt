@@ -200,3 +200,49 @@ test('Without an authorizator (drago-ex/permission is optional) every item is sh
 		titles(createRestrictedMenu()->build(createUser(null, 'editor'))),
 	);
 });
+
+
+test('Badge entries are summed by link, an item with sub-items shows the sum of theirs', function () {
+	$menu = (new SidebarMenu([
+		'System' => [['title' => 'Dashboard', 'link' => 'Admin:']],
+		'Content' => [[
+			'title' => 'Shop',
+			'link' => 'Shop:*',
+			'items' => [
+				['title' => 'Products', 'link' => 'Shop:'],
+				['title' => 'Orders', 'link' => 'Shop:orders'],
+			],
+		]],
+	], [
+		fn(): array => [
+			['link' => 'Shop:orders', 'count' => 2, 'label' => 'New orders'],
+			['link' => 'Admin:', 'count' => 1, 'label' => 'Something to check'],
+		],
+		fn(): array => [['link' => 'Shop:orders', 'count' => 1, 'label' => 'Unpaid orders']],
+	]))->build();
+
+	Assert::same(1, $menu['System'][0]->badge);
+	Assert::same(3, $menu['Content'][0]->badge);
+	Assert::same(0, $menu['Content'][0]->items[0]->badge);
+	Assert::same(3, $menu['Content'][0]->items[1]->badge);
+});
+
+
+test('The bell lists the entries with a number whose link the user may open', function () {
+	$acl = createAcl();
+	$acl->allow('editor', 'Backend:Blog', 'default-read');
+	$sidebar = new SidebarMenu([
+		'System' => [['title' => 'Settings', 'link' => 'Settings:', 'allowAny' => ['Backend:Settings', 'default-read']]],
+		'Content' => [['title' => 'Blog', 'link' => 'Blog:', 'allowAny' => ['Backend:Blog', 'default-read']]],
+	], [fn(): array => [
+		['link' => 'Blog:', 'count' => 2, 'label' => 'Comments waiting for approval'],
+		['link' => 'Blog:', 'count' => 0, 'label' => 'Nothing'],
+		['link' => 'Settings:', 'count' => 1, 'label' => 'Hidden for the editor'],
+	]]);
+
+	Assert::same(
+		[['link' => 'Blog:', 'count' => 2, 'label' => 'Comments waiting for approval']],
+		$sidebar->getNotifications($sidebar->build(createUser($acl, 'editor'))),
+	);
+	Assert::same([], (new SidebarMenu(['System' => [['title' => 'Dashboard', 'link' => 'Admin:']]]))->getNotifications([]));
+});

@@ -1,0 +1,24 @@
+{* A bell in the navbar with what waits for the user (e.g. comments to approve, new orders): the entries of the
+   badge services, see SidebarMenu::getNotifications(). Hidden when nothing waits. *}
+{varType list<array{link: string, count: int, label: string}> $notifications}
+
+<div n:if="$notifications" class="dropdown custom-dropdown me-1">
+	<button class="btn btn-link nav-link px-2" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{_'Notifications'}">
+		{* the number sits on the bell itself (slightly over its corner), not on the corner of the button with its padding *}
+		<span class="position-relative d-inline-block">
+			<i class="fa-regular fa-bell"></i>
+			<span class="position-absolute translate-middle badge rounded-pill text-bg-danger" style="top: 15%; left: 80%; font-size: 0.6rem; padding: 0.25em 0.45em">
+				{array_sum(array_column($notifications, 'count'))}
+			</span>
+		</span>
+	</button>
+	<ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm">
+		<li><h6 class="dropdown-header">{_'Waiting for you'}</h6></li>
+		<li n:foreach="$notifications as $notification">
+			<a n:href="$notification[link]" class="dropdown-item d-flex align-items-center gap-3">
+				<span class="me-auto">{_$notification[label]}</span>
+				<span class="badge rounded-pill text-bg-warning">{$notification[count]}</span>
+			</a>
+		</li>
+	</ul>
+</div>

@@ -15,4 +15,7 @@ class BackendTemplate extends BaseTemplate
 
 	/** @var array<string, SidebarItem[]> */
 	public array $sidebarMenu = [];
+
+	/** @var list<array{link: string, count: int, label: string}> what waits for the user, for the bell in the navbar */
+	public array $notifications = [];
 }
