@@ -51,9 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 ## Vytvoření menu
 
-Menu se sestavuje z parametru `sidebar`. Každý balíček přidává své položky ve vlastním `N.menu.neon`
-vedle svého presenteru, takže nainstalovaný balíček se v menu objeví bez úprav `BackendPresenter`.
-Nette soubory spojuje v pořadí jejich čísel (`Admin/1.menu.neon` s nástěnkou je první):
+Menu se sestavuje z parametru `sidebar`. Položky přidejte ve vlastních souborech `N.menu.neon` vedle presenterů,
+bez úprav `BackendPresenter`; Nette soubory spojuje v pořadí jejich čísel (`Admin/1.menu.neon` s nástěnkou
+je první). Ostatní balíčky soubor s menu nemají, jejich README uvádějí odkazy jejich stránek a
+[drago-ex/project-preset](https://github.com/drago-ex/project-preset) přidá položky balíčků, které obsahuje:
 
 ```neon
 parameters:
@@ -63,23 +64,22 @@ parameters:
 			# a simple link with an icon
 			- {title: Static pages, link: 'Page:', icon: fa-regular fa-file-lines bell}
 
-			# an item with a submenu, shown when the user has at least one of the privileges
+			# an item with a submenu
 			-
 				title: Permissions
 				link: 'Permission:*'
 				icon: fa-solid fa-gear bell
-				allowAny: [Backend:Permission, roles-read, users-read]
 				items:
-					- {title: Roles, link: 'Permission:roles', allow: [Backend:Permission, roles-read]}
+					- {title: Roles, link: 'Permission:roles'}
 ```
 
 Nadpisy se překládají, přidejte je proto do překladů svého balíčku. Menu lze sestavit i
-v PHP pomocí `SidebarBuilder` (`addSection`, `addItem`, `setIcon`, `setAllowAny`, `addSubItem`).
+v PHP pomocí `SidebarBuilder` (`addSection`, `addItem`, `setIcon`, `addSubItem`).
 
 Co čeká na uživatele (např. komentáře ke schválení, nové objednávky), dodají služby se štítkem `sidebar.badge`:
 objekt s `__invoke()`, který vrací záznamy s odkazem menu, číslem a popiskem. Položka menu s tím odkazem ukazuje součet
 jeho čísel (položka s podmenu součet svých podpoložek) a zvonek v navbaru (`Accessory/Menu/@notifications.latte`)
-celkový počet s (přeloženými) popisky záznamů, které uživatel smí otevřít; když nic nečeká, není vidět.
+celkový počet s (přeloženými) popisky záznamů v menu; když nic nečeká, není vidět.
 
 ```neon
 services:
@@ -104,15 +104,8 @@ Balíček funguje i bez nich. Pokud je projekt potřebuje, nastavte je ručně p
 
 ### Integrace s project-permission
 
-Pokud používáte balíček [project-permission](https://github.com/drago-ex/project-permission), menu samo řídí viditelnost podle privilegií uživatele.
-
-- **allowAny: [resource, ...privileges]** - Hlavní položka se zobrazí, pokud má uživatel nad daným zdrojem **aspoň jedno** z uvedených privilegií.
-
-- **allow: [resource, privilege]** (podpoložka) - Podpoložka se zobrazí, jen pokud má uživatel nad daným zdrojem **přesně** dané privilegium.
-
-Položka, jejíž podpoložky jsou všechny skryté, se skryje také, a zdroj, který ACL nezná, se počítá jako zamítnutý.
-Bez autorizátoru (bez drago-ex/permission) se zobrazí všechny položky. Otevření stránky vyžaduje privilegium `{action}-read`
-jejího presenteru, takže položka pro stránku používá například `allowAny: [Backend:Settings, default-read]`.
+Menu zobrazuje všechny své položky. Jejich skrývání podle privilegií uživatele je součástí
+[project-preset](https://github.com/drago-ex/project-preset), který soubory menu nahradí verzemi, jež je kontrolují.
 
 Privilegium přehledu administrace (`Backend:Admin`, `default-read`) je v `migrations-permission/`. Naimportujte ho ručně,
 aby šlo přidělit roli, která má vstoupit do administrace (bez něj se role po přihlášení dostane na úvodní stránku webu):

@@ -4,21 +4,17 @@ declare(strict_types=1);
 
 namespace App\Presentation\Backend\Accessory\Menu;
 
-use App\Core\Security\CurrentUser;
-
 
 /**
- * The administration menu from the `sidebar` parameter. Each package adds its items in its own N.menu.neon,
- * Nette merges them in the order of the file numbers, so a package installed later appears in the menu
- * without editing the presenter:
+ * The administration menu from the `sidebar` parameter. Items are added in N.menu.neon files next to the presenters,
+ * Nette merges them in the order of the file numbers, so a new item needs no change of the presenter:
  *
  *     parameters:
  *         sidebar:
  *             Content:
  *                 - {title: Static pages, link: 'Page:', icon: fa-regular fa-file-lines bell}
  *
- * An item may also have `allowAny: [resource, privilege, ...]` and `items` (sub-items with `title`, `link`
- * and `allow: [resource, privilege]`).
+ * An item may also have `items` (sub-items with `title` and `link`).
  *
  * What waits for the user (e.g. comments to approve, new orders) comes from services tagged `sidebar.badge`:
  * callable objects returning a list of `[link: menu link, count: number, label: text for the navbar bell]`,
@@ -30,8 +26,8 @@ use App\Core\Security\CurrentUser;
  * The menu item of the link shows the sum of its numbers (an item with sub-items the sum of theirs), the bell
  * lists every entry with its label.
  *
- * @phpstan-type SubItem array{title: string, link: string, allow?: list<string>}
- * @phpstan-type Item array{title: string, link: string, icon?: string, allowAny?: list<string>, items?: list<SubItem>}
+ * @phpstan-type SubItem array{title: string, link: string}
+ * @phpstan-type Item array{title: string, link: string, icon?: string, items?: list<SubItem>}
  * @phpstan-type Notification array{link: string, count: int, label: string}
  */
 class SidebarMenu
@@ -52,11 +48,9 @@ class SidebarMenu
 
 
 	/**
-	 * With a user, only the items the user may open are returned (allowAny of an item, allow of a sub-item);
-	 * an item whose sub-items are all hidden is hidden too.
 	 * @return array<string, list<SidebarItem>>
 	 */
-	public function build(?CurrentUser $user = null): array
+	public function build(): array
 	{
 		$builder = new SidebarBuilder;
 		foreach ($this->sections as $section => $items) {
@@ -66,25 +60,20 @@ class SidebarMenu
 				if (isset($item['icon'])) {
 					$builder->setIcon($item['icon']);
 				}
-				if (isset($item['allowAny'])) {
-					$builder->setAllowAny(...$item['allowAny']);
-				}
 				foreach ($item['items'] ?? [] as $subItem) {
-					$builder->addSubItem($subItem['title'], $subItem['link'], $subItem['allow'] ?? null);
+					$builder->addSubItem($subItem['title'], $subItem['link']);
 				}
 			}
 		}
 
-		$menu = $builder->build();
-		$menu = $user === null ? $menu : $this->filter($menu, $user);
-		return $this->setBadges($menu);
+		return $this->setBadges($builder->build());
 	}
 
 
 	/**
 	 * The entries of the badge services for the bell in the navbar (label translated by the template), only those
 	 * whose link is a page of the built menu (an item without sub-items or a sub-item, not a group like
-	 * "Permission:*"), so the user sees only what the user may open and the menu shows the same numbers.
+	 * "Permission:*"), so the bell and the menu show the same numbers.
 	 * @param array<string, list<SidebarItem>> $menu
 	 * @return list<Notification>
 	 */
@@ -160,43 +149,5 @@ class SidebarMenu
 		}
 
 		return $menu;
-	}
-
-
-	/**
-	 * @param array<string, list<SidebarItem>> $menu
-	 * @return array<string, list<SidebarItem>>
-	 */
-	private function filter(array $menu, CurrentUser $user): array
-	{
-		$visible = [];
-		foreach ($menu as $section => $items) {
-			foreach ($items as $item) {
-				if (!$this->isAllowed($user, $item->allowAny)) {
-					continue;
-				}
-
-				$hasItems = $item->items !== [];
-				$item->items = array_values(array_filter(
-					$item->items,
-					fn(SidebarSubItem $subItem): bool => $this->isAllowed($user, $subItem->allow),
-				));
-				if (!$hasItems || $item->items !== []) {
-					$visible[$section][] = $item;
-				}
-			}
-		}
-
-		return $visible;
-	}
-
-
-	/**
-	 * Any of the privileges on the resource ([resource, privilege, ...]), see CurrentUser::isPermitted().
-	 * @param list<string>|null $allow
-	 */
-	private function isAllowed(CurrentUser $user, ?array $allow): bool
-	{
-		return $allow === null || $user->isPermitted(...$allow);
 	}
 }

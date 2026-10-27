@@ -8,15 +8,13 @@ namespace App\Presentation\Backend\Accessory\Menu;
 /**
  * @phpstan-type SidebarSubItemData array{
  *     title: string,
- *     link: string,
- *     allow: ?list<string>
+ *     link: string
  * }
  *
  * @phpstan-type SidebarItemData array{
  *     title: string,
  *     link: string,
  *     icon: ?string,
- *     allowAny: ?list<string>,
  *     items: list<SidebarSubItemData>
  * }
  */
@@ -47,7 +45,6 @@ class SidebarBuilder
 			'title' => $title,
 			'link' => $link,
 			'icon' => null,
-			'allowAny' => null,
 			'items' => [],
 		];
 
@@ -65,32 +62,14 @@ class SidebarBuilder
 	}
 
 
-	public function setAllowAny(string $resource, string ...$privileges): self
-	{
-		/** @var list<string> $allow */
-		$allow = [$resource, ...$privileges];
-
-		$this->structure[$this->currentSection][$this->currentKey]['allowAny'] = $allow;
-
-		return $this;
-	}
-
-
 	/**
 	 * Adds a sub-item (submenu) to the last added main item.
-	 *
-	 * @param ?list<string> $allow
 	 */
-	public function addSubItem(
-		string $title,
-		string $link,
-		?array $allow = null,
-	): self
+	public function addSubItem(string $title, string $link): self
 	{
 		$this->structure[$this->currentSection][$this->currentKey]['items'][] = [
 			'title' => $title,
 			'link' => $link,
-			'allow' => $allow,
 		];
 
 		return $this;
@@ -117,7 +96,6 @@ class SidebarBuilder
 					$subItems[] = new SidebarSubItem(
 						$subItem['title'],
 						$subItem['link'],
-						$subItem['allow'],
 					);
 				}
 
@@ -125,7 +103,6 @@ class SidebarBuilder
 					$item['title'],
 					$item['link'],
 					$item['icon'],
-					$item['allowAny'],
 					$subItems,
 				);
 			}

@@ -51,9 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 ## Creating a Menu
 
-The menu is built from the `sidebar` parameter. Each package adds its items in its own `N.menu.neon`
-next to its presenter, so an installed package appears in the menu without editing `BackendPresenter`.
-Nette merges the files in the order of their numbers (`Admin/1.menu.neon` with Dashboard is first):
+The menu is built from the `sidebar` parameter. Add items in your own `N.menu.neon` files next to the presenters,
+without editing `BackendPresenter`; Nette merges the files in the order of their numbers (`Admin/1.menu.neon`
+with Dashboard is first). Other packages ship no menu file, their READMEs list the links of their pages, and
+[drago-ex/project-preset](https://github.com/drago-ex/project-preset) adds the items of the packages it includes:
 
 ```neon
 parameters:
@@ -63,24 +64,22 @@ parameters:
 			# a simple link with an icon
 			- {title: Static pages, link: 'Page:', icon: fa-regular fa-file-lines bell}
 
-			# an item with a submenu, shown when the user has at least one of the privileges
+			# an item with a submenu
 			-
 				title: Permissions
 				link: 'Permission:*'
 				icon: fa-solid fa-gear bell
-				allowAny: [Backend:Permission, roles-read, users-read]
 				items:
-					- {title: Roles, link: 'Permission:roles', allow: [Backend:Permission, roles-read]}
+					- {title: Roles, link: 'Permission:roles'}
 ```
 
 Titles are translated, so add them to the translations of your package. The menu can also be built
-in PHP with `SidebarBuilder` (`addSection`, `addItem`, `setIcon`, `setAllowAny`, `addSubItem`).
+in PHP with `SidebarBuilder` (`addSection`, `addItem`, `setIcon`, `addSubItem`).
 
 What waits for the user (e.g. comments to approve, new orders) comes from services tagged `sidebar.badge`: an
 object with `__invoke()` returning entries with the menu link, the number and a label. The menu item of the link
 shows the sum of its numbers (an item with a submenu the sum of its sub-items), and a bell in the navbar
-(`Accessory/Menu/@notifications.latte`) shows the total with the labels (translated) of the entries the user may
-open; it is hidden when nothing waits.
+(`Accessory/Menu/@notifications.latte`) shows the total with the labels (translated) of the entries in the menu; it is hidden when nothing waits.
 
 ```neon
 services:
@@ -105,15 +104,8 @@ The package works without them. Set them up by hand as described below when the 
 
 ### Integration with project-permission
 
-If you are using the [project-permission](https://github.com/drago-ex/project-permission) package, the menu automatically handles visibility based on user privileges.
-
-- **allowAny: [resource, ...privileges]** - The main item is displayed if the user has **at least one** of the specified privileges for the given resource.
-
-- **allow: [resource, privilege]** (sub-item) - The sub-item is displayed only if the user has the **exact** privilege for the given resource.
-
-An item whose sub-items are all hidden is hidden too, and a resource the ACL does not know counts as denied.
-Without an authorizator (no drago-ex/permission) all items are shown. Opening a page needs the `{action}-read`
-privilege of its presenter, so an item for a page uses e.g. `allowAny: [Backend:Settings, default-read]`.
+The menu shows all its items. Hiding them by the privileges of the user is part of
+[project-preset](https://github.com/drago-ex/project-preset), which replaces the menu files with versions that check them.
 
 The privilege of the dashboard (`Backend:Admin`, `default-read`) is in `migrations-permission/`. Import it by hand,
 so it can be given to a role that should enter the administration (without it the role goes to the front page after signing in):

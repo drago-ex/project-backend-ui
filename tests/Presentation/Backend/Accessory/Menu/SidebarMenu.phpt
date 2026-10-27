@@ -23,9 +23,8 @@ test('Items of the sidebar parameter are built into the menu', function () {
 			[
 				'title' => 'Permissions',
 				'link' => 'Permission:*',
-				'allowAny' => ['Backend:Permission', 'roles-read'],
 				'items' => [
-					['title' => 'Roles', 'link' => 'Permission:roles', 'allow' => ['Backend:Permission', 'roles-read']],
+					['title' => 'Roles', 'link' => 'Permission:roles'],
 					['title' => 'Users roles', 'link' => 'Permission:users'],
 				],
 			],
@@ -35,8 +34,8 @@ test('Items of the sidebar parameter are built into the menu', function () {
 	Assert::equal([
 		'System' => [
 			new SidebarItem('Dashboard', 'Admin:', 'fa-solid fa-mug-hot'),
-			new SidebarItem('Permissions', 'Permission:*', null, ['Backend:Permission', 'roles-read'], [
-				new SidebarSubItem('Roles', 'Permission:roles', ['Backend:Permission', 'roles-read']),
+			new SidebarItem('Permissions', 'Permission:*', null, [
+				new SidebarSubItem('Roles', 'Permission:roles'),
 				new SidebarSubItem('Users roles', 'Permission:users'),
 			]),
 		],
@@ -71,137 +70,6 @@ test('An empty sidebar gives an empty menu', function () {
 });
 
 
-function createUser(?Nette\Security\Authorizator $authorizator, string ...$roles): App\Core\Security\CurrentUser
-{
-	$storage = new class implements Nette\Security\UserStorage {
-		private ?Nette\Security\IIdentity $identity = null;
-
-
-		public function saveAuthentication(Nette\Security\IIdentity $identity): void
-		{
-			$this->identity = $identity;
-		}
-
-
-		public function clearAuthentication(bool $clearIdentity): void
-		{
-		}
-
-
-		public function getState(): array
-		{
-			return [$this->identity !== null, $this->identity, null];
-		}
-
-
-		public function setExpiration(?string $expire, bool $clearIdentity): void
-		{
-		}
-	};
-
-	$user = new App\Core\Security\CurrentUser($storage, null, $authorizator);
-	$user->login(new Nette\Security\SimpleIdentity(1, $roles));
-	return $user;
-}
-
-
-function createAcl(): Nette\Security\Permission
-{
-	$acl = new Nette\Security\Permission;
-	$acl->addRole('admin');
-	$acl->addRole('editor');
-	foreach (['Backend:Admin', 'Backend:Settings', 'Backend:Blog'] as $resource) {
-		$acl->addResource($resource);
-	}
-
-	$acl->allow('admin');
-	$acl->allow('editor', 'Backend:Blog', ['default-read', 'comments-read']);
-	return $acl;
-}
-
-
-/** @return list<string> titles of the items and sub-items, e.g. Blog > Comments */
-function titles(array $menu): array
-{
-	$titles = [];
-	foreach ($menu as $items) {
-		foreach ($items as $item) {
-			$titles[] = $item->title;
-			foreach ($item->items as $subItem) {
-				$titles[] = $item->title . ' > ' . $subItem->title;
-			}
-		}
-	}
-
-	return $titles;
-}
-
-
-function createRestrictedMenu(): SidebarMenu
-{
-	return new SidebarMenu([
-		'System' => [
-			['title' => 'Dashboard', 'link' => 'Admin:', 'allowAny' => ['Backend:Admin', 'default-read']],
-			['title' => 'Settings', 'link' => 'Settings:', 'allowAny' => ['Backend:Settings', 'default-read']],
-			['title' => 'Unknown', 'link' => 'Unknown:', 'allowAny' => ['Backend:Unknown', 'default-read']],
-			['title' => 'Help', 'link' => 'Help:'],
-		],
-		'Content' => [
-			[
-				'title' => 'Blog',
-				'link' => 'Blog:*',
-				'allowAny' => ['Backend:Blog', 'default-read', 'categories-read', 'comments-read'],
-				'items' => [
-					['title' => 'Articles', 'link' => 'Blog:', 'allow' => ['Backend:Blog', 'default-read']],
-					['title' => 'Categories', 'link' => 'Blog:categories', 'allow' => ['Backend:Blog', 'categories-read']],
-					['title' => 'Comments', 'link' => 'Blog:comments', 'allow' => ['Backend:Blog', 'comments-read']],
-				],
-			],
-		],
-	]);
-}
-
-
-test('With a user, only the items the user may open are shown', function () {
-	$menu = createRestrictedMenu();
-
-	Assert::same(
-		['Help', 'Blog', 'Blog > Articles', 'Blog > Comments'],
-		titles($menu->build(createUser(createAcl(), 'editor'))),
-	);
-
-	// A resource the ACL does not know is denied, like the Authorization trait does.
-	Assert::same(
-		['Dashboard', 'Settings', 'Help', 'Blog', 'Blog > Articles', 'Blog > Categories', 'Blog > Comments'],
-		titles($menu->build(createUser(createAcl(), 'admin'))),
-	);
-});
-
-
-test('An item whose sub-items are all hidden is hidden too', function () {
-	$acl = createAcl();
-	$acl->addRole('writer');
-	$acl->allow('writer', 'Backend:Blog', 'categories-write');
-	$menu = new SidebarMenu([
-		'Content' => [[
-			'title' => 'Blog',
-			'link' => 'Blog:*',
-			'items' => [['title' => 'Articles', 'link' => 'Blog:', 'allow' => ['Backend:Blog', 'default-read']]],
-		]],
-	]);
-
-	Assert::same([], $menu->build(createUser($acl, 'writer')));
-});
-
-
-test('Without an authorizator (drago-ex/permission is optional) every item is shown', function () {
-	Assert::same(
-		['Dashboard', 'Settings', 'Unknown', 'Help', 'Blog', 'Blog > Articles', 'Blog > Categories', 'Blog > Comments'],
-		titles(createRestrictedMenu()->build(createUser(null, 'editor'))),
-	);
-});
-
-
 test('Badge entries are summed by link, an item with sub-items shows the sum of theirs', function () {
 	$menu = (new SidebarMenu([
 		'System' => [['title' => 'Dashboard', 'link' => 'Admin:']],
@@ -228,21 +96,18 @@ test('Badge entries are summed by link, an item with sub-items shows the sum of 
 });
 
 
-test('The bell lists the entries with a number whose link the user may open', function () {
-	$acl = createAcl();
-	$acl->allow('editor', 'Backend:Blog', 'default-read');
+test('The bell lists the entries with a number whose link is a page of the menu', function () {
 	$sidebar = new SidebarMenu([
-		'System' => [['title' => 'Settings', 'link' => 'Settings:', 'allowAny' => ['Backend:Settings', 'default-read']]],
-		'Content' => [['title' => 'Blog', 'link' => 'Blog:', 'allowAny' => ['Backend:Blog', 'default-read']]],
+		'Content' => [['title' => 'Blog', 'link' => 'Blog:']],
 	], [fn(): array => [
 		['link' => 'Blog:', 'count' => 2, 'label' => 'Comments waiting for approval'],
 		['link' => 'Blog:', 'count' => 0, 'label' => 'Nothing'],
-		['link' => 'Settings:', 'count' => 1, 'label' => 'Hidden for the editor'],
+		['link' => 'Settings:', 'count' => 1, 'label' => 'Not in the menu'],
 	]]);
 
 	Assert::same(
 		[['link' => 'Blog:', 'count' => 2, 'label' => 'Comments waiting for approval']],
-		$sidebar->getNotifications($sidebar->build(createUser($acl, 'editor'))),
+		$sidebar->getNotifications($sidebar->build()),
 	);
 	Assert::same([], (new SidebarMenu(['System' => [['title' => 'Dashboard', 'link' => 'Admin:']]]))->getNotifications([]));
 });

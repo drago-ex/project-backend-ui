@@ -29,14 +29,13 @@ test('Items are grouped by section in the order they are added', function () {
 });
 
 
-test('The icon, permissions and sub-items belong to the last added item', function () {
+test('The icon and sub-items belong to the last added item', function () {
 	$menu = (new SidebarBuilder)
 		->addSection('System')
 		->addItem('Dashboard', 'Admin:')
 		->addItem('Permissions', 'Permission:*')
 		->setIcon('fa-solid fa-lock')
-		->setAllowAny('Backend:Permission', 'roles-read', 'users-read')
-		->addSubItem('Roles', 'Permission:roles', ['Backend:Permission', 'roles-read'])
+		->addSubItem('Roles', 'Permission:roles')
 		->addSubItem('Users roles', 'Permission:users')
 		->build();
 
@@ -45,9 +44,8 @@ test('The icon, permissions and sub-items belong to the last added item', functi
 		'Permissions',
 		'Permission:*',
 		'fa-solid fa-lock',
-		['Backend:Permission', 'roles-read', 'users-read'],
 		[
-			new SidebarSubItem('Roles', 'Permission:roles', ['Backend:Permission', 'roles-read']),
+			new SidebarSubItem('Roles', 'Permission:roles'),
 			new SidebarSubItem('Users roles', 'Permission:users'),
 		],
 	), $menu['System'][1]);
