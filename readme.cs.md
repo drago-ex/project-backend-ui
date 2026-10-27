@@ -1,7 +1,5 @@
 # Drago Project Backend UI
 
-[English](readme.md) | Čeština
-
 Zapojení základní šablony administrace.
 
 [![PHP version](https://badge.fury.io/ph/drago-ex%2Fproject-backend-ui.svg)](https://badge.fury.io/ph/drago-ex%2Fproject-backend-ui)
