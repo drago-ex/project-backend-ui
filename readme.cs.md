@@ -96,7 +96,13 @@ final class CommentBadge
 }
 ```
 
-## Integrace s project-permission
+---
+
+## Volitelné doplňky
+
+Balíček funguje i bez nich. Pokud je projekt potřebuje, nastavte je ručně podle popisu níže.
+
+### Integrace s project-permission
 
 Pokud používáte balíček [project-permission](https://github.com/drago-ex/project-permission), menu samo řídí viditelnost podle privilegií uživatele.
 

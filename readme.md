@@ -97,7 +97,13 @@ final class CommentBadge
 }
 ```
 
-## Integration with project-permission
+---
+
+## Optional add-ons
+
+The package works without them. Set them up by hand as described below when the project needs them.
+
+### Integration with project-permission
 
 If you are using the [project-permission](https://github.com/drago-ex/project-permission) package, the menu automatically handles visibility based on user privileges.
 
