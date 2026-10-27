@@ -53,8 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 Menu se sestavuje z parametru `sidebar`. Položky přidejte ve vlastních souborech `N.menu.neon` vedle presenterů,
 bez úprav `BackendPresenter`; Nette soubory spojuje v pořadí jejich čísel (`Admin/1.menu.neon` s nástěnkou
-je první). Ostatní balíčky soubor s menu nemají, jejich README uvádějí odkazy jejich stránek a
-[drago-ex/project-preset](https://github.com/drago-ex/project-preset) přidá položky balíčků, které obsahuje:
+je první). Ostatní balíčky soubor s menu nemají, jejich README uvádějí odkazy jejich stránek:
 
 ```neon
 parameters:
@@ -106,8 +105,7 @@ Balíček funguje i bez nich. Pokud je projekt potřebuje, nastavte je ručně p
 
 ### Integrace s project-permission
 
-Menu zobrazuje všechny své položky. Jejich skrývání podle privilegií uživatele je součástí
-[project-preset](https://github.com/drago-ex/project-preset), který soubory menu nahradí verzemi, jež je kontrolují.
+Menu zobrazuje všechny své položky; podle privilegií uživatele je neskrývá.
 
 Privilegium přehledu administrace (`Backend:Admin`, `default-read`) je v `migrations-permission/`. Naimportujte ho ručně,
 aby šlo přidělit roli, která má vstoupit do administrace (bez něj se role po přihlášení dostane na úvodní stránku webu):
@@ -115,5 +113,3 @@ aby šlo přidělit roli, která má vstoupit do administrace (bez něj se role 
 ```bash
 php vendor/bin/migration db:migrate vendor/drago-ex/project-backend-ui/migrations-permission
 ```
-
-S [drago-ex/project-preset-permission](https://github.com/drago-ex/project-preset-permission) ho naimportuje webový instalátor sám.

@@ -53,8 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 The menu is built from the `sidebar` parameter. Add items in your own `N.menu.neon` files next to the presenters,
 without editing `BackendPresenter`; Nette merges the files in the order of their numbers (`Admin/1.menu.neon`
-with Dashboard is first). Other packages ship no menu file, their READMEs list the links of their pages, and
-[drago-ex/project-preset](https://github.com/drago-ex/project-preset) adds the items of the packages it includes:
+with Dashboard is first). Other packages ship no menu file, their READMEs list the links of their pages:
 
 ```neon
 parameters:
@@ -106,8 +105,7 @@ The package works without them. Set them up by hand as described below when the 
 
 ### Integration with project-permission
 
-The menu shows all its items. Hiding them by the privileges of the user is part of
-[project-preset](https://github.com/drago-ex/project-preset), which replaces the menu files with versions that check them.
+The menu shows all its items; it does not hide them by the privileges of the user.
 
 The privilege of the dashboard (`Backend:Admin`, `default-read`) is in `migrations-permission/`. Import it by hand,
 so it can be given to a role that should enter the administration (without it the role goes to the front page after signing in):
@@ -115,5 +113,3 @@ so it can be given to a role that should enter the administration (without it th
 ```bash
 php vendor/bin/migration db:migrate vendor/drago-ex/project-backend-ui/migrations-permission
 ```
-
-With [drago-ex/project-preset-permission](https://github.com/drago-ex/project-preset-permission), the web installer imports it itself.
