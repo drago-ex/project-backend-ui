@@ -2,6 +2,10 @@
 
 Zapojení základní šablony administrace.
 
+Balíček vychází z [Dashboard Skeleton](https://github.com/compostrap/dashboard-skeleton).
+Přepínač motivů používá globální atribut Bootstrapu `data-bs-theme` a poskytuje ho
+`theme-switcher-compostrap`.
+
 [![PHP version](https://badge.fury.io/ph/drago-ex%2Fproject-backend-ui.svg)](https://badge.fury.io/ph/drago-ex%2Fproject-backend-ui)
 [![Tests](https://github.com/drago-ex/project-backend-ui/actions/workflows/tests.yml/badge.svg)](https://github.com/drago-ex/project-backend-ui/actions/workflows/tests.yml)
 [![Coding Style](https://github.com/drago-ex/project-backend-ui/actions/workflows/coding-style.yml/badge.svg)](https://github.com/drago-ex/project-backend-ui/actions/workflows/coding-style.yml)
@@ -28,19 +32,10 @@ composer require drago-ex/project-backend-ui
 npm install sidebar-skeleton-compostrap sidebar-menu-compostrap sidebar-menu-2-compostrap dashboard-skeleton-compostrap theme-switcher-compostrap perfect-scrollbar
 ```
 
-## Soubory projektu
+## Soubory kopírované do projektu
 
-Kopírování souborů obstarává automaticky [drago-ex/project-tools](https://github.com/drago-ex/project-tools),
-který musí být v projektu nainstalovaný. Bez něj zkopírujte soubory ručně podle sekce `replace`
-v `composer.json` tohoto balíčku. Pro přeskočení balíčku nastavte `"skip": true` v
-`extra.drago-tools.packages.<package-name>` v kořenovém `composer.json`.
-
-> Upozornění: Balíček používá sekci `replace`, takže některé soubory **přepíše, pokud už existují**.
-> Tyto soubory ručně neupravujte; pokud je chcete spravovat sami, použijte volbu `skip`.
-
-Balíček vychází z [Dashboard Skeleton](https://github.com/compostrap/dashboard-skeleton).
-Přepínač motivů používá globální atribut Bootstrapu `data-bs-theme` a poskytuje ho
-`theme-switcher-compostrap`.
+Soubory do projektu kopíruje [drago-ex/project-tools](https://github.com/drago-ex/project-tools)
+podle nastavení v `extra.drago-tools` v `composer.json` tohoto balíčku.
 
 ## Použití admin-theme.js
 

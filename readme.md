@@ -2,6 +2,10 @@
 
 Integration of a basic template for administration.
 
+This package is based on [Dashboard Skeleton](https://github.com/compostrap/dashboard-skeleton).
+The theme switcher uses Bootstrap's global `data-bs-theme` attribute and is provided by
+`theme-switcher-compostrap`.
+
 [![PHP version](https://badge.fury.io/ph/drago-ex%2Fproject-backend-ui.svg)](https://badge.fury.io/ph/drago-ex%2Fproject-backend-ui)
 [![Tests](https://github.com/drago-ex/project-backend-ui/actions/workflows/tests.yml/badge.svg)](https://github.com/drago-ex/project-backend-ui/actions/workflows/tests.yml)
 [![Coding Style](https://github.com/drago-ex/project-backend-ui/actions/workflows/coding-style.yml/badge.svg)](https://github.com/drago-ex/project-backend-ui/actions/workflows/coding-style.yml)
@@ -28,19 +32,10 @@ composer require drago-ex/project-backend-ui
 npm install sidebar-skeleton-compostrap sidebar-menu-compostrap sidebar-menu-2-compostrap dashboard-skeleton-compostrap theme-switcher-compostrap perfect-scrollbar
 ```
 
-## Project files
+## Files copied into the project
 
-File copying is handled automatically by [drago-ex/project-tools](https://github.com/drago-ex/project-tools),
-which must be installed in your project. Without it, copy the files manually according to the `replace` section
-in this package's `composer.json`. To skip this package, set `"skip": true` under
-`extra.drago-tools.packages.<package-name>` in your root `composer.json`.
-
-> Warning: This package uses the `replace` section, which means some files will be **overwritten if they already exist**.
-> Avoid manual edits to those files; use the `skip` option if you need to manage them yourself.
-
-This package is based on [Dashboard Skeleton](https://github.com/compostrap/dashboard-skeleton).
-The theme switcher uses Bootstrap's global `data-bs-theme` attribute and is provided by
-`theme-switcher-compostrap`.
+The files are copied into the project by [drago-ex/project-tools](https://github.com/drago-ex/project-tools),
+as set in `extra.drago-tools` of this package's `composer.json`.
 
 ## Use admin-theme.js
 
