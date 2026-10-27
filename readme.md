@@ -62,16 +62,18 @@ parameters:
 		# a section title, items of the same section from other files are appended
 		Content:
 			# a simple link with an icon
-			- {title: Static pages, link: 'Page:', icon: fa-regular fa-file-lines bell}
+			page: {title: Static pages, link: 'Page:', icon: fa-regular fa-file-lines bell}
 
 			# an item with a submenu
-			-
+			permission:
 				title: Permissions
 				link: 'Permission:*'
 				icon: fa-solid fa-gear bell
 				items:
-					- {title: Roles, link: 'Permission:roles'}
+					roles: {title: Roles, link: 'Permission:roles'}
 ```
+
+Items have keys: a later file adds to an item by its key, because Nette merges the files.
 
 Titles are translated, so add them to the translations of your package. The menu can also be built
 in PHP with `SidebarBuilder` (`addSection`, `addItem`, `setIcon`, `addSubItem`).
@@ -114,4 +116,4 @@ so it can be given to a role that should enter the administration (without it th
 php vendor/bin/migration db:migrate vendor/drago-ex/project-backend-ui/migrations-permission
 ```
 
-The web installer of [project-install](https://github.com/drago-ex/project-install) imports it itself.
+With [drago-ex/project-preset-permission](https://github.com/drago-ex/project-preset-permission), the web installer imports it itself.

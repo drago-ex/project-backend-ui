@@ -62,16 +62,18 @@ parameters:
 		# a section title, items of the same section from other files are appended
 		Content:
 			# a simple link with an icon
-			- {title: Static pages, link: 'Page:', icon: fa-regular fa-file-lines bell}
+			page: {title: Static pages, link: 'Page:', icon: fa-regular fa-file-lines bell}
 
 			# an item with a submenu
-			-
+			permission:
 				title: Permissions
 				link: 'Permission:*'
 				icon: fa-solid fa-gear bell
 				items:
-					- {title: Roles, link: 'Permission:roles'}
+					roles: {title: Roles, link: 'Permission:roles'}
 ```
+
+Položky mají klíče: pozdější soubor může položku podle klíče doplnit, protože Nette soubory slučuje.
 
 Nadpisy se překládají, přidejte je proto do překladů svého balíčku. Menu lze sestavit i
 v PHP pomocí `SidebarBuilder` (`addSection`, `addItem`, `setIcon`, `addSubItem`).
@@ -114,4 +116,4 @@ aby šlo přidělit roli, která má vstoupit do administrace (bez něj se role 
 php vendor/bin/migration db:migrate vendor/drago-ex/project-backend-ui/migrations-permission
 ```
 
-Webový instalátor z [project-install](https://github.com/drago-ex/project-install) ho naimportuje sám.
+S [drago-ex/project-preset-permission](https://github.com/drago-ex/project-preset-permission) ho naimportuje webový instalátor sám.

@@ -65,6 +65,26 @@ test('Configs of the packages are merged in the order they are loaded', function
 });
 
 
+test('A later config adds to an item by its key and keeps the order', function () {
+	$compiler = new Compiler;
+	foreach ([
+		"sidebar:\n\tSystem:\n\t\tdashboard: {title: Dashboard, link: 'Admin:'}",
+		"sidebar:\n\tSystem:\n\t\tsettings: {title: Settings, link: 'Settings:'}",
+		"sidebar:\n\tSystem:\n\t\tdashboard: {icon: fa-solid fa-mug-hot}",
+	] as $neon) {
+		$compiler->addConfig(['parameters' => Neon::decode($neon)]);
+	}
+
+	$compiler->processExtensions();
+	$menu = (new SidebarMenu($compiler->getContainerBuilder()->parameters['sidebar']))->build();
+
+	Assert::equal([
+		new SidebarItem('Dashboard', 'Admin:', 'fa-solid fa-mug-hot'),
+		new SidebarItem('Settings', 'Settings:'),
+	], $menu['System']);
+});
+
+
 test('An empty sidebar gives an empty menu', function () {
 	Assert::same([], (new SidebarMenu([]))->build());
 });

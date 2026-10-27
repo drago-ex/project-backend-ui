@@ -12,9 +12,10 @@ namespace App\Presentation\Backend\Accessory\Menu;
  *     parameters:
  *         sidebar:
  *             Content:
- *                 - {title: Static pages, link: 'Page:', icon: fa-regular fa-file-lines bell}
+ *                 page: {title: Static pages, link: 'Page:', icon: fa-regular fa-file-lines bell}
  *
- * An item may also have `items` (sub-items with `title` and `link`).
+ * Items (and their `items`, sub-items with `title` and `link`) have keys, so a later N.menu.neon can add to an item
+ * by its key, as Nette merges the files.
  *
  * What waits for the user (e.g. comments to approve, new orders) comes from services tagged `sidebar.badge`:
  * callable objects returning a list of `[link: menu link, count: number, label: text for the navbar bell]`,
@@ -27,7 +28,7 @@ namespace App\Presentation\Backend\Accessory\Menu;
  * lists every entry with its label.
  *
  * @phpstan-type SubItem array{title: string, link: string}
- * @phpstan-type Item array{title: string, link: string, icon?: string, items?: list<SubItem>}
+ * @phpstan-type Item array{title: string, link: string, icon?: string, items?: array<SubItem>}
  * @phpstan-type Notification array{link: string, count: int, label: string}
  */
 class SidebarMenu
@@ -37,7 +38,7 @@ class SidebarMenu
 
 
 	/**
-	 * @param array<string, list<Item>> $sections
+	 * @param array<string, array<Item>> $sections items by key (a later file may extend an item)
 	 * @param array<callable(): list<Notification>> $badges services tagged sidebar.badge
 	 */
 	public function __construct(

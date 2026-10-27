@@ -2,7 +2,7 @@
 parameters:
 	sidebar:
 		System:
-			- {title: Dashboard, link: 'Admin:', icon: fa-solid fa-mug-hot bell}
+			dashboard: {title: Dashboard, link: 'Admin:', icon: fa-solid fa-mug-hot bell}
 
 services:
 	# numbers next to the items come from services tagged sidebar.badge (see SidebarMenu)
