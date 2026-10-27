@@ -7,7 +7,7 @@ Use this file as package-specific guidance when working in this repository. Keep
 - **Type**: drago-tools-resource
 - **Purpose**: Integration of a basic template for administration.
 - **PHP**: >=8.3 <9
-- **Runtime dependencies**: drago-ex/project-user (^2.0), drago-ex/project-backend (^2.0), drago-ex/project-account (^1.0)
+- **Runtime dependencies**: drago-ex/translator (^4.0), drago-ex/project-user (^1.0), drago-ex/project-backend (^1.0), drago-ex/project-account (^1.0)
 - **License**: MIT
 
 ## Repository Layout
@@ -26,7 +26,7 @@ Use this file as package-specific guidance when working in this repository. Keep
 ## Dependencies
 
 Composer constraints describe the package contract. Before changing integration behavior, inspect the source and the actual call sites in this package; do not infer runtime usage solely from dependency declarations.
-Development dependencies include nette/tester (^2.5), phpstan/phpstan (^2.0), phpstan/phpstan-nette (^2.0), drago-ex/project-tools (^2.0).
+Development dependencies include nette/tester (^2.5), phpstan/phpstan (^2.0), phpstan/phpstan-nette (^2.0), drago-ex/project-tools (^1.0).
 
 ## Essential Commands
 
