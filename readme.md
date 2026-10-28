@@ -13,12 +13,7 @@ The theme switcher uses Bootstrap's global `data-bs-theme` attribute and is prov
 ## Requirements
 
 - PHP >= 8.3, < 9
-- Nette Framework
-- Composer
-- Bootstrap
-- Naja
-- Node.js
-- Drago Project core packages
+- [Drago Project](https://github.com/drago-ex/project)
 
 ## Installation
 
