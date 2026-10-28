@@ -22,11 +22,15 @@
 							{/foreach}
 						{/if}
 						<a href="{$link}" n:class="'list-link', $hasSubmenu ? 'link-arrow', $current ? 'link-current'">
-							<span n:if="$item->icon" class="list-icon">
-								<i class="{$item->icon}"></i>
-							</span>
-							{_$item->title}
-							<span n:snippet="badge-{$sectionNo}-{$itemNo}"><span n:if="$item->badge" class="badge rounded-pill text-bg-warning ms-1">{$item->badge}</span></span>
+							<div class="clearfix">
+								<div class="float-start">
+									<span n:if="$item->icon" class="list-icon">
+										<i class="{$item->icon}"></i>
+									</span>
+									{_$item->title}
+								</div>
+								<div n:snippet="badge-{$sectionNo}-{$itemNo}" class="float-end"><span n:if="$item->badge" class="badge bg-primary">{$item->badge}</span></div>
+							</div>
 						</a>
 
 						<!-- list items, second level -->
@@ -36,8 +40,10 @@
 								<li>
 									{do $current = $presenter->isLinkCurrent($subItem->link)}
 									<a n:href="$subItem->link" n:class="'list-link', $current ? link-current">
-										{_$subItem->title}
-										<span n:snippet="badge-{$sectionNo}-{$itemNo}-{$subItemNo}"><span n:if="$subItem->badge" class="badge rounded-pill text-bg-warning ms-1">{$subItem->badge}</span></span>
+										<div class="clearfix">
+											<div class="float-start">{_$subItem->title}</div>
+											<div n:snippet="badge-{$sectionNo}-{$itemNo}-{$subItemNo}" class="float-end"><span n:if="$subItem->badge" class="badge bg-primary">{$subItem->badge}</span></div>
+										</div>
 									</a>
 								</li>
 							{/foreach}

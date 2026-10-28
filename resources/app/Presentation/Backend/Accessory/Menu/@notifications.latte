@@ -7,7 +7,7 @@
 		{* the number sits on the bell itself (slightly over its corner), not on the corner of the button with its padding *}
 		<span class="position-relative d-inline-block">
 			<i class="fa-regular fa-bell"></i>
-			<span class="position-absolute translate-middle badge rounded-pill text-bg-danger" style="top: 15%; left: 80%; font-size: 0.6rem; padding: 0.25em 0.45em">
+			<span class="position-absolute translate-middle badge rounded-pill bg-primary" style="top: 15%; left: 80%; font-size: 0.6rem; padding: 0.25em 0.45em">
 				{array_sum(array_column($notifications, 'count'))}
 			</span>
 		</span>
@@ -17,7 +17,7 @@
 		<li n:foreach="$notifications as $notification">
 			<a n:href="$notification[link]" class="dropdown-item d-flex align-items-center gap-3">
 				<span class="me-auto">{_$notification[label]}</span>
-				<span class="badge rounded-pill text-bg-warning">{$notification[count]}</span>
+				<span class="badge bg-primary">{$notification[count]}</span>
 			</a>
 		</li>
 	</ul>
