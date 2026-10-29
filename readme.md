@@ -55,7 +55,7 @@ parameters:
 	sidebar:
 		# a section title, items of the same section from other files are appended
 		Content:
-			# a simple link with an icon
+			# a simple link with an icon, current on every page of its presenter
 			page: {title: Static pages, link: 'Page:', icon: fa-regular fa-file-lines bell}
 
 			# an item with a submenu

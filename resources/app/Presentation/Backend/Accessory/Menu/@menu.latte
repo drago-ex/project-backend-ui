@@ -15,7 +15,8 @@
 					{do $hasSubmenu = $item->items !== []}
 					<li>
 						{do $link = $hasSubmenu ? '#' : $presenter->link($item->link)}
-						{do $current = $presenter->isLinkCurrent($item->link)}
+						{* a simple link is current on every page of its presenter, e.g. Blog: on the categories too *}
+						{do $current = $presenter->isLinkCurrent($hasSubmenu ? $item->link : preg_replace('~[^:]*$~', '*', $item->link))}
 						{if $hasSubmenu}
 							{foreach $item->items as $subItem}
 								{do $current = $current || $presenter->isLinkCurrent($subItem->link)}
