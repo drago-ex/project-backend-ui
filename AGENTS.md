@@ -7,7 +7,7 @@ Use this file as package-specific guidance when working in this repository. Keep
 - **Type**: drago-tools-resource
 - **Purpose**: Integration of a basic template for administration.
 - **PHP**: >=8.3 <9
-- **Runtime dependencies**: drago-ex/translator (^4.0), drago-ex/project-user (^1.0), drago-ex/project-backend (^1.0), drago-ex/project-account (^1.0)
+- **Runtime dependencies**: drago-ex/translator (^4.0.1), drago-ex/project-user (^1.0), drago-ex/project-backend (^1.0), drago-ex/project-account (^1.0)
 - **License**: MIT
 
 ## Repository Layout
