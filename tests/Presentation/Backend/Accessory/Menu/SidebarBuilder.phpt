@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: App\Presentation\Backend\Accessory\Menu\SidebarBuilder
  */
-
-declare(strict_types=1);
 
 use App\Presentation\Backend\Accessory\Menu\SidebarBuilder;
 use App\Presentation\Backend\Accessory\Menu\SidebarItem;

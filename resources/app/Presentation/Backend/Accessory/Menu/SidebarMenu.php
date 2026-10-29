@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Presentation\Backend\Accessory\Menu;
 
@@ -37,12 +35,10 @@ class SidebarMenu
 	private ?array $entries = null;
 
 
-	/**
-	 * @param array<string, array<Item>> $sections items by key (a later file may extend an item)
-	 * @param array<callable(): list<Notification>> $badges services tagged sidebar.badge
-	 */
 	public function __construct(
+		/** @var array<string, array<Item>> items by key (a later file may extend an item) */
 		private readonly array $sections,
+		/** @var array<callable(): list<Notification>> services tagged sidebar.badge */
 		private readonly array $badges = [],
 	) {
 	}
