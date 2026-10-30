@@ -44,9 +44,7 @@ class SidebarMenu
 	}
 
 
-	/**
-	 * @return array<string, list<SidebarItem>>
-	 */
+	/** @return array<string, list<SidebarItem>> */
 	public function build(): array
 	{
 		$builder = new SidebarBuilder;

@@ -60,9 +60,7 @@ class SidebarBuilder
 	}
 
 
-	/**
-	 * Adds a sub-item (submenu) to the last added main item.
-	 */
+	/** Adds a sub-item (submenu) to the last added main item. */
 	public function addSubItem(string $title, string $link): self
 	{
 		$this->structure[$this->currentSection][$this->currentKey]['items'][] = [
