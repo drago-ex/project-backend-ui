@@ -5,3 +5,9 @@
 @import 'sidebar-menu-2-compostrap/src/scss/sidebar-custom';
 @import 'dashboard-skeleton-compostrap/src/scss/dashboard';
 @import 'theme-switcher-compostrap/src/scss/theme-switcher';
+
+// purple like the accent color of Bootstrap 6 (theme-accent), which Bootstrap 5.3 has only as --bs-purple
+.text-bg-accent {
+	color: #fff !important;
+	background-color: var(--bs-purple) !important;
+}
