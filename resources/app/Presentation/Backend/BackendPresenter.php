@@ -26,7 +26,7 @@ class BackendPresenter extends BasePresenter
 	{
 		parent::beforeRender();
 		$this->template->currentUser = $this->currentUser;
-		$this->template->sidebarMenu = $menu = $this->sidebarMenu->build();
+		$this->template->sidebarMenu = $menu = $this->sidebarMenu->build($this->getUser());
 		$this->template->notifications = $this->sidebarMenu->getNotifications($menu);
 
 		// what waits for the user may change by any AJAX request (e.g. approving a comment), so the bell and

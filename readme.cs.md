@@ -24,7 +24,7 @@ composer require drago-ex/project-backend-ui
 ## Instalace přes npm
 
 ```bash
-npm install sidebar-skeleton-compostrap sidebar-menu-compostrap sidebar-menu-2-compostrap dashboard-skeleton-compostrap theme-switcher-compostrap perfect-scrollbar
+npm install sidebar-skeleton-compostrap sidebar-menu-compostrap sidebar-menu-2-compostrap dashboard-skeleton-compostrap theme-switcher-compostrap perfect-scrollbar @fortawesome/fontawesome-free
 ```
 
 ## Soubory kopírované do projektu
@@ -32,23 +32,30 @@ npm install sidebar-skeleton-compostrap sidebar-menu-compostrap sidebar-menu-2-c
 Soubory do projektu kopíruje [drago-ex/project-tools](https://github.com/drago-ex/project-tools)
 podle nastavení v `extra.drago-tools` v `composer.json` tohoto balíčku.
 
-## Použití admin-theme.js
+## Assety
 
-Zkopírovaný soubor `assets/admin.js` motiv administrace už inicializuje:
+Zkopírovaný `assets/admin.js` inicializuje motiv administrace a registruje rozšíření Naja, která potřebuje každá
+administrace: spinner, tlačítko odeslání, Tom Select, komponenty a rozbalovací nabídky Bootstrapu a toasty pro flash
+zprávy. `assets/admin.scss` vkládá jejich styly. Assety dalších balíčků (např. datagridu, galerie) přidejte do těchto
+dvou souborů podle jejich README:
 
 ```js
-import { initAdminTheme } from "./core/admin-theme.js";
-
-document.addEventListener("DOMContentLoaded", () => {
-	initAdminTheme();
-});
+registerNajaExtensions(
+	Spinner,
+	SubmitButtonDisable,
+	TomSelectHandler,
+	BootstrapComponents,
+	BootstrapDropdowns,
+	ToastHandler
+	// the extensions of other packages
+);
 ```
 
 ## Vytvoření menu
 
 Menu se sestavuje z parametru `sidebar`. Položky přidejte ve vlastních souborech `N.menu.neon` vedle presenterů,
 bez úprav `BackendPresenter`; Nette soubory spojuje v pořadí jejich čísel (`Admin/1.menu.neon` s nástěnkou
-je první). Ostatní balíčky soubor s menu nemají, jejich README uvádějí odkazy jejich stránek:
+je první). Balíčky project-* se stránkou administrace takto přidávají svou položku:
 
 ```neon
 parameters:
@@ -92,19 +99,20 @@ final class CommentBadge
 }
 ```
 
----
+## Přístup k menu
 
-## Volitelné doplňky
+Menu a odkaz na přehled administrace zobrazují jen to, co uživatel smí otevřít, se stejnou kontrolou jako trait
+`Authorization` z [drago-ex/permission](https://github.com/drago-ex/permission): odkaz položky, relativní k modulu
+Backend, určí zdroj a privilegium (`'Blog:'` → `Backend:Blog`, `default`; `'Blog:categories'` → `categories`).
+Pro odkaz na stránku, která jen přesměruje, nastavte privilegia v `allow` (stačí kterékoli z nich):
 
-Balíček funguje i bez nich. Pokud je projekt potřebuje, nastavte je ručně podle popisu níže.
-
-### Integrace s project-permission
-
-Menu zobrazuje všechny své položky; podle privilegií uživatele je neskrývá.
-
-Privilegium přehledu administrace (`Backend:Admin`, `default-read`) je v `migrations-permission/`. Naimportujte ho ručně,
-aby šlo přidělit roli, která má vstoupit do administrace (bez něj se role po přihlášení dostane na úvodní stránku webu):
-
-```bash
-php vendor/bin/migration db:migrate vendor/drago-ex/project-backend-ui/migrations-permission
+```neon
+parameters:
+	sidebar:
+		System:
+			permission: {title: Permissions, link: 'Permission:', allow: [Backend:Permission, users, roles]}
 ```
+
+Položka s podmenu se zobrazí, když je vidět některá z jejích podpoložek, sekce, když je vidět některá z jejích
+položek. Přehled administrace je privilegium `default` nad `Backend:Admin`; role bez něj se po přihlášení dostane
+na úvodní stránku webu.

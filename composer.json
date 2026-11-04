@@ -6,9 +6,13 @@
 	"require": {
 		"php": ">=8.3 <9",
 		"drago-ex/translator": "^4.0.1",
+		"drago-ex/application": "^4.0",
+		"drago-ex/component": "^3.0",
+		"drago-ex/form": "^3.0",
 		"drago-ex/project-user": "^1.0",
 		"drago-ex/project-backend": "^1.0",
-		"drago-ex/project-account": "^1.0 || ^2.0"
+		"drago-ex/project-account": "^1.0 || ^2.0",
+		"drago-ex/permission": "^2.0"
 	},
 	"require-dev": {
 		"nette/tester": "^2.5",

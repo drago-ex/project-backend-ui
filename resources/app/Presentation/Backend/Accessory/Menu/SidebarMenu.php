@@ -2,6 +2,9 @@
 
 namespace App\Presentation\Backend\Accessory\Menu;
 
+use Drago\Permission\Privilege;
+use Nette\Security\User;
+
 
 /**
  * The administration menu from the `sidebar` parameter. Items are added in N.menu.neon files next to the presenters,
@@ -15,6 +18,11 @@ namespace App\Presentation\Backend\Accessory\Menu;
  * Items (and their `items`, sub-items with `title` and `link`) have keys, so a later N.menu.neon can add to an item
  * by its key, as Nette merges the files.
  *
+ * Only what the user may open is shown, checked like the Authorization trait of drago-ex/permission: the link
+ * relative to the Backend module gives the resource and the action ("Blog:categories" → Backend:Blog, categories;
+ * "Blog:" → default). `allow: [resource, privilege, ...]` sets it instead (any of the privileges), e.g. for a link
+ * to a page that only redirects. An item with sub-items is shown when one of them is.
+ *
  * What waits for the user (e.g. comments to approve, new orders) comes from services tagged `sidebar.badge`:
  * callable objects returning a list of `[link: menu link, count: number, label: text for the navbar bell]`,
  * so a package needs no class of this one:
@@ -25,8 +33,8 @@ namespace App\Presentation\Backend\Accessory\Menu;
  * The menu item of the link shows the sum of its numbers (an item with sub-items the sum of theirs), the bell
  * lists every entry with its label.
  *
- * @phpstan-type SubItem array{title: string, link: string}
- * @phpstan-type Item array{title: string, link: string, icon?: string, items?: array<SubItem>}
+ * @phpstan-type SubItem array{title: string, link: string, allow?: list<string>}
+ * @phpstan-type Item array{title: string, link: string, icon?: string, allow?: list<string>, items?: array<SubItem>}
  * @phpstan-type Notification array{link: string, count: int, label: string}
  */
 class SidebarMenu
@@ -44,18 +52,34 @@ class SidebarMenu
 	}
 
 
-	/** @return array<string, list<SidebarItem>> */
-	public function build(): array
+	/**
+	 * The items the user may open; a section without them is left out.
+	 * @return array<string, list<SidebarItem>>
+	 */
+	public function build(User $user): array
 	{
 		$builder = new SidebarBuilder;
 		foreach ($this->sections as $section => $items) {
-			$builder->addSection($section);
+			$sectionAdded = false;
 			foreach ($items as $item) {
+				$subItems = array_filter(
+					$item['items'] ?? [],
+					fn(array $subItem): bool => $this->isAllowed($user, $subItem),
+				);
+				if (isset($item['items']) ? $subItems === [] : !$this->isAllowed($user, $item)) {
+					continue;
+				}
+
+				if (!$sectionAdded) {
+					$builder->addSection($section);
+					$sectionAdded = true;
+				}
+
 				$builder->addItem($item['title'], $item['link']);
 				if (isset($item['icon'])) {
 					$builder->setIcon($item['icon']);
 				}
-				foreach ($item['items'] ?? [] as $subItem) {
+				foreach ($subItems as $subItem) {
 					$builder->addSubItem($subItem['title'], $subItem['link']);
 				}
 			}
@@ -91,6 +115,28 @@ class SidebarMenu
 			$this->getEntries(),
 			fn(array $entry): bool => isset($links[$entry['link']]),
 		));
+	}
+
+
+	/**
+	 * Whether the user may open the item: its `allow`, else the resource and the action of its link.
+	 * @param Item|SubItem $item
+	 */
+	private function isAllowed(User $user, array $item): bool
+	{
+		if (isset($item['allow'])) {
+			$resource = array_shift($item['allow']);
+			$privilege = array_shift($item['allow']);
+			return $resource !== null && $privilege !== null
+				&& Privilege::isAllowed($user, $resource, $privilege, ...$item['allow']);
+		}
+
+		// "Blog:categories" → Backend:Blog, categories; an absolute ":Front:Home:" → Front:Home, default
+		$absolute = str_starts_with($item['link'], ':');
+		$parts = explode(':', ltrim($item['link'], ':'));
+		$action = array_pop($parts) ?: 'default';
+		$resource = ($absolute ? '' : 'Backend:') . implode(':', $parts);
+		return Privilege::isAllowed($user, $resource, $action);
 	}
 
 

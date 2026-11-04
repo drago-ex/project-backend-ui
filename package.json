@@ -1,4 +1,6 @@
 {
+	"name": "drago-project-backend-ui",
+	"private": true,
 	"dependencies": {
 		"@fortawesome/fontawesome-free": "^7.1.0",
 		"dashboard-skeleton-compostrap": "^3.0.4",

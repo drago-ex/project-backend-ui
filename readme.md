@@ -24,7 +24,7 @@ composer require drago-ex/project-backend-ui
 ## npm Installation
 
 ```bash
-npm install sidebar-skeleton-compostrap sidebar-menu-compostrap sidebar-menu-2-compostrap dashboard-skeleton-compostrap theme-switcher-compostrap perfect-scrollbar
+npm install sidebar-skeleton-compostrap sidebar-menu-compostrap sidebar-menu-2-compostrap dashboard-skeleton-compostrap theme-switcher-compostrap perfect-scrollbar @fortawesome/fontawesome-free
 ```
 
 ## Files copied into the project
@@ -32,23 +32,30 @@ npm install sidebar-skeleton-compostrap sidebar-menu-compostrap sidebar-menu-2-c
 The files are copied into the project by [drago-ex/project-tools](https://github.com/drago-ex/project-tools),
 as set in `extra.drago-tools` of this package's `composer.json`.
 
-## Use admin-theme.js
+## Assets
 
-The copied `assets/admin.js` file already initializes the admin theme:
+The copied `assets/admin.js` initializes the admin theme and registers the Naja extensions every administration
+needs: the spinner, the submit button, Tom Select, Bootstrap components and dropdowns, and toasts for flash messages.
+`assets/admin.scss` includes their styles. Add the assets of other packages (e.g. the datagrid, the gallery) to these
+two files as their READMEs show:
 
 ```js
-import { initAdminTheme } from "./core/admin-theme.js";
-
-document.addEventListener("DOMContentLoaded", () => {
-	initAdminTheme();
-});
+registerNajaExtensions(
+	Spinner,
+	SubmitButtonDisable,
+	TomSelectHandler,
+	BootstrapComponents,
+	BootstrapDropdowns,
+	ToastHandler
+	// the extensions of other packages
+);
 ```
 
 ## Creating a Menu
 
 The menu is built from the `sidebar` parameter. Add items in your own `N.menu.neon` files next to the presenters,
 without editing `BackendPresenter`; Nette merges the files in the order of their numbers (`Admin/1.menu.neon`
-with Dashboard is first). Other packages ship no menu file, their READMEs list the links of their pages:
+with Dashboard is first). The project-* packages with an administration page ship their item this way:
 
 ```neon
 parameters:
@@ -92,19 +99,19 @@ final class CommentBadge
 }
 ```
 
----
+## Access to the Menu
 
-## Optional add-ons
+The menu and the link of the dashboard show only what the user may open, checked like the `Authorization` trait
+of [drago-ex/permission](https://github.com/drago-ex/permission): the link of an item, relative to the Backend
+module, gives the resource and the privilege (`'Blog:'` → `Backend:Blog`, `default`; `'Blog:categories'` →
+`categories`). For a link to a page that only redirects, set the privileges with `allow` (any of them is enough):
 
-The package works without them. Set them up by hand as described below when the project needs them.
-
-### Integration with project-permission
-
-The menu shows all its items; it does not hide them by the privileges of the user.
-
-The privilege of the dashboard (`Backend:Admin`, `default-read`) is in `migrations-permission/`. Import it by hand,
-so it can be given to a role that should enter the administration (without it the role goes to the front page after signing in):
-
-```bash
-php vendor/bin/migration db:migrate vendor/drago-ex/project-backend-ui/migrations-permission
+```neon
+parameters:
+	sidebar:
+		System:
+			permission: {title: Permissions, link: 'Permission:', allow: [Backend:Permission, users, roles]}
 ```
+
+An item with a submenu is shown when one of its sub-items is, a section when one of its items is. The dashboard
+is the privilege `default` of `Backend:Admin`; a role without it goes to the front page after signing in.
