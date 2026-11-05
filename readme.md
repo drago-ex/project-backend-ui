@@ -27,7 +27,7 @@ Its npm dependencies (sidebar, theme switcher, Font Awesome) are installed by `n
 
 The copied `assets/admin.js` initializes the theme and registers the Naja extensions of the administration:
 the spinner, the submit button, Tom Select, Bootstrap components and dropdowns, and toasts for flash messages;
-`assets/admin.scss` imports their styles. Add the extensions of other packages to the same call:
+`assets/admin.scss` imports their styles and the tooltip of icon buttons (drago-ex/component). Add the extensions of other packages to the same call:
 
 ```js
 registerNajaExtensions(
