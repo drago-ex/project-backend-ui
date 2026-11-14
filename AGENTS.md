@@ -6,9 +6,9 @@ sidebar menu, badges, the notification bell, the user menu and the theme. The wo
 
 ## Layout
 - `resources/app/Presentation/Backend`: `BackendPresenter`, `BackendTemplate`, `@layout.latte`,
-  `Accessory/Menu` (`SidebarMenu`, `SidebarBuilder`, `SidebarItem`, `SidebarSubItem`, `@menu.latte`,
-  `@notifications.latte`), `Accessory/Widget/@content.latte`, `Admin/` (dashboard,
-  `1.menu.neon`, `Translate/cs.neon`).
+  `Accessory/Menu` (`SidebarMenu`, `MenuLink`, `SidebarBuilder`, `SidebarItem`, `SidebarSubItem`, `@menu.latte`,
+  `@notifications.latte`), `Accessory/Dashboard/DashboardWidgets`, `Accessory/Widget/@content.latte`, `Admin/` (`AdminPresenter` +
+  `AdminTemplate` over the ones of project-backend, the dashboard, `1.menu.neon`, `Translate/cs.neon`).
 - `resources/assets/admin.js`, `admin.scss`, `core/admin-theme.*`, `core/admin-layout.scss`.
 - `package.json` (with `name`): the npm dependencies, installed by `npm-loader.js` of drago-ex/project.
 - `tests/`.
@@ -42,6 +42,14 @@ sidebar menu, badges, the notification bell, the user menu and the theme. The wo
   relative to the Backend module (`Blog:categories` → `Backend:Blog` + `categories`, empty action → `default`, a
   leading `:` = absolute), an item with sub-items when one is allowed, a section only with an item.
   `@menu.latte` only prints. `@layout.latte` links the dashboard only with `Backend:Admin` + `default`.
+- Who may open a link is one rule, `MenuLink::isAllowed()`, used by the menu and the dashboard.
+- Dashboard: services tagged `dashboard.widget` (`DashboardWidgets(tagged(dashboard.widget))` in `Admin/1.menu.neon`)
+  are callables returning widget arrays (`tile`, `chart`, `ranking`, `list`; the shape is the `Widget` phpstan type
+  of `DashboardWidgets`), duck-typed like the badges. `DashboardWidgets::build(User)` leaves out the widgets whose link
+  the user may not open, skips (and logs) a service that throws, and sorts tiles and blocks by `order`. `default.latte`
+  draws tiles as `stat-tile` of compostrap, charts and rankings (`bar-horizontal`) by `compostrap/chart` (`Charts.init()`
+  in `admin.js`, the module `chart` in `admin.scss`, `chart.js` in `package.json`), lists as `list-row`; titles,
+  notes and series names are translation keys, item texts are data. Tests: `tests/.../Dashboard/DashboardWidgets.phpt`.
 - Badges: services tagged `sidebar.badge` (`tagged(sidebar.badge)` in `Admin/1.menu.neon`) are callables returning
   `[link, count, label]` entries, loaded once per request; `SidebarMenu::setBadges()` sums the counts by link
   (an item with sub-items gets the sum of theirs). Duck-typed on purpose, so an add-on (e.g. `CommentBadge` of

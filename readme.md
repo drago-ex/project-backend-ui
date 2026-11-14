@@ -22,8 +22,8 @@ composer require drago-ex/project-backend-ui
 
 [Project Tools](https://github.com/drago-ex/project-tools) copies the files of the package into the project once,
 replacing the layout and the `admin.*` assets of [Project Backend](https://github.com/drago-ex/project-backend).
-Its npm dependencies (compostrap, Bootstrap Icons, Perfect Scrollbar, Font Awesome) are installed by `npm install`
-of the project.
+Its npm dependencies (compostrap, Bootstrap Icons, Perfect Scrollbar, Chart.js, Font Awesome) are installed by
+`npm install` of the project.
 
 ## Assets
 
@@ -103,6 +103,42 @@ final class CommentBadge
 	}
 }
 ```
+
+## Dashboard
+
+The dashboard shows what the installed packages bring: tiles with numbers on top, charts, rankings and lists under
+them. A package registers a service tagged `dashboard.widget`, a callable returning a list of widgets (arrays, so it
+needs no class of this package); a widget is shown only to a user who may open its link (the rule of the menu), and a
+service that fails is logged and left out.
+
+```neon
+services:
+	- {factory: App\Presentation\Backend\Blog\DashboardWidget, tags: [dashboard.widget], autowired: no}
+```
+
+```php
+final class DashboardWidget
+{
+	public function __invoke(): array
+	{
+		return [
+			['type' => 'tile', 'link' => 'Blog:', 'title' => 'Comments to approve', 'value' => 3, 'icon' => 'bi bi-chat-dots', 'theme' => 'warning'],
+			['type' => 'ranking', 'link' => 'Blog:', 'title' => 'Most commented articles', 'items' => [['Welcome', 4]]],
+		];
+	}
+}
+```
+
+| Key | Widget | Meaning |
+|-----|--------|---------|
+| `type` | all | `tile`, `chart`, `ranking`, `list` |
+| `link` | all | a link like in the menu (`Blog:`, `Permission:users`): the privilege and the target |
+| `title` | all | a translation key |
+| `order` | all | lower first (100 without one); tiles and the other widgets are sorted apart |
+| `value`, `icon`, `theme`, `note`, `noteCount` | tile | the number, a Bootstrap Icons class, a theme color, a translated note with a number (`%d drafts`) |
+| `subtitle`, `chart` | chart | a translation key; the `data-chart` configuration of compostrap (`type`, `labels`, `series`; series names are translated) |
+| `items`, `empty` | ranking, list | `[label, value, link?]` (bars) or `[text, meta, link?]` (rows); a translation key shown without items |
+| `width` | chart, ranking, list | `wide` (8 of 12 columns) or `narrow` (4, default) |
 
 ## Permissions
 

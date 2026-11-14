@@ -2,7 +2,6 @@
 
 namespace App\Presentation\Backend\Accessory\Menu;
 
-use Drago\Permission\Privilege;
 use Nette\Security\User;
 
 
@@ -124,19 +123,7 @@ class SidebarMenu
 	 */
 	private function isAllowed(User $user, array $item): bool
 	{
-		if (isset($item['allow'])) {
-			$resource = array_shift($item['allow']);
-			$privilege = array_shift($item['allow']);
-			return $resource !== null && $privilege !== null
-				&& Privilege::isAllowed($user, $resource, $privilege, ...$item['allow']);
-		}
-
-		// "Blog:categories" → Backend:Blog, categories; an absolute ":Front:Home:" → Front:Home, default
-		$absolute = str_starts_with($item['link'], ':');
-		$parts = explode(':', ltrim($item['link'], ':'));
-		$action = array_pop($parts) ?: 'default';
-		$resource = ($absolute ? '' : 'Backend:') . implode(':', $parts);
-		return Privilege::isAllowed($user, $resource, $action);
+		return MenuLink::isAllowed($user, $item['link'], $item['allow'] ?? null);
 	}
 
 

@@ -1,11 +1,72 @@
 {templateType App\Presentation\Backend\Admin\AdminTemplate}
 
 {block content}
-{embed ../Accessory/Widget/@content.latte}
+{embed ../Accessory/Widget/@content.latte, tiles: $tiles}
 	{block content}
-		<header class="mb-4 pb-2 border-bottom">
+		<header n:class="pb-2, border-bottom, $tiles ? mb-4 : mb-2">
 			<h1 n:block="title" class="h5 mb-1">{_'Dashboard'}</h1>
 			<p class="small text-body-secondary mb-0">{_'Welcome to the administration welcome page.'}</p>
 		</header>
+
+		{* tiles with numbers (stat-tile of compostrap), each a link to its page *}
+		<div n:if="$tiles" class="row g-3">
+			<div n:foreach="$tiles as $tile" class="col-6 col-xl-3">
+				<a n:href="$tile['link']" class="stat-tile theme-{$tile['theme'] ?? 'primary'}">
+					<span class="stat-icon"><i class="{$tile['icon'] ?? 'bi bi-bar-chart'}" aria-hidden="true"></i></span>
+					<span>
+						<span class="stat-value">{$tile['value'] ?? 0}</span>
+						<span class="stat-label">{_$tile['title']}<span n:ifset="$tile['note']" class="text-body-secondary"> &middot; {_$tile['note'], $tile['noteCount'] ?? 0}</span></span>
+					</span>
+				</a>
+			</div>
+		</div>
 	{/block}
 {/embed}
+
+{* charts, rankings and lists of the packages, wide (8 of 12 columns) or narrow (4) *}
+<div n:if="$blocks" class="row g-3 mb-3">
+	<div n:foreach="$blocks as $block" n:class="col-12, ($block['width'] ?? 'narrow') === 'wide' ? col-xl-8 : col-xl-4">
+		<section class="content-box h-100">
+			<header class="mb-3 pb-2 border-bottom">
+				<h2 class="h6 mb-1"><a n:href="$block['link']" class="text-reset">{_$block['title']}</a></h2>
+				<p n:ifset="$block['subtitle']" class="small text-body-secondary mb-0">{_$block['subtitle']}</p>
+			</header>
+
+			{if $block['type'] === 'chart'}
+				{* a chart of compostrap (Chart.js); the names of the series are translation keys *}
+				{var $chart = $block['chart'] ?? []}
+				{foreach $chart['series'] ?? [] as $i => $series}
+					{do $chart['series'][$i]['name'] = ($series['name']|translate)}
+				{/foreach}
+				<div class="chart"><canvas data-chart={$chart} aria-label={_$block['title']}></canvas></div>
+
+			{elseif !($block['items'] ?? [])}
+				<p class="text-body-secondary mb-0">{_$block['empty'] ?? 'Nothing here yet.'}</p>
+
+			{elseif $block['type'] === 'ranking'}
+				{* the ranking as a list: the label (cut with an ellipsis, the whole in its title) and the value, a thin bar
+				   of the value against the first one under them; long labels stay readable in a narrow column *}
+				{var $max = max(1, ...array_map(fn(array $item): int => (int) $item[1], $block['items']))}
+				<ol class="list-unstyled vstack gap-3 mb-0">
+					<li n:foreach="$block['items'] as $item">
+						<div class="d-flex justify-content-between gap-3 mb-1">
+							<a href={$presenter->link($item[2] ?? $block['link'])} class="text-truncate text-reset" title={$item[0]}>{$item[0]}</a>
+							<span class="fw-semibold">{$item[1]}</span>
+						</div>
+						<div class="progress" style="height: .375rem" role="presentation">
+							<div class="progress-bar" style="width: {round((int) $item[1] / $max * 100)}%"></div>
+						</div>
+					</li>
+				</ol>
+
+			{else}
+				{* a list of rows (list-row of compostrap), each a link to its own page or to the page of the widget *}
+				<div class="vstack">
+					<a n:foreach="$block['items'] as $item" href={isset($item[2]) ? $presenter->link($item[2]) : $presenter->link($block['link'])} class="list-row">
+						<span class="list-row-text">{$item[0]}<small>{$item[1]}</small></span>
+					</a>
+				</div>
+			{/if}
+		</section>
+	</div>
+</div>

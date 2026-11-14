@@ -7,3 +7,6 @@ parameters:
 services:
 	# numbers next to the items come from services tagged sidebar.badge (see SidebarMenu)
 	- App\Presentation\Backend\Accessory\Menu\SidebarMenu(%sidebar%, tagged(sidebar.badge))
+
+	# the widgets of the dashboard come from services tagged dashboard.widget (see DashboardWidgets)
+	- App\Presentation\Backend\Accessory\Dashboard\DashboardWidgets(tagged(dashboard.widget))

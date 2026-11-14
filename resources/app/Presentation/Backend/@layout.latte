@@ -10,6 +10,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="{$basePath}/favicon.svg" type="image/svg+xml">
 	{* the remembered theme (auto = the theme of the system) and the compact sidebar before the page is drawn, so a dark
 	   page does not flash light and the menu does not jump until the scripts run *}
 	<script>try { let theme = localStorage.getItem('bootstrap-theme'); if (theme === 'auto') { theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; } if (theme === 'light' || theme === 'dark') { document.documentElement.setAttribute('data-bs-theme', theme); } if (localStorage.getItem('sidebar-compact') === '1') { document.documentElement.classList.add('sidebar-compact'); } } catch (e) { }</script>
