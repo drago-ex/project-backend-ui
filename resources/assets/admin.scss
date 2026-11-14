@@ -2,7 +2,8 @@
 @import 'core/admin-theme';
 @import 'naja/spinner';
 @import 'drago-form/styles/tom-select';
-@import 'drago-component/styles/tooltip';
+// the styles of other packages go here, before the frame of the administration
+@import 'core/admin-layout';
 
 //
 // admin style

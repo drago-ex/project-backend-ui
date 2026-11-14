@@ -1,0 +1,4 @@
+// the frame of the administration (sidebar, menu, navbar, content boxes); loaded last, it finishes the components
+@import 'compostrap/src/scss/sidebar';
+@import 'compostrap/src/scss/sidebar-menu';
+@import 'compostrap/src/scss/dashboard';

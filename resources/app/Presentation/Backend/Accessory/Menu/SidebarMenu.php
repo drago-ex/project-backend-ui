@@ -13,7 +13,7 @@ use Nette\Security\User;
  *     parameters:
  *         sidebar:
  *             Content:
- *                 page: {title: Static pages, link: 'Page:', icon: fa-regular fa-file-lines bell}
+ *                 page: {title: Static pages, link: 'Page:', icon: bi bi-file-earmark-text bell}
  *
  * Items (and their `items`, sub-items with `title` and `link`) have keys, so a later N.menu.neon can add to an item
  * by its key, as Nette merges the files.

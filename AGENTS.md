@@ -7,9 +7,9 @@ sidebar menu, badges, the notification bell, the user menu and the theme. The wo
 ## Layout
 - `resources/app/Presentation/Backend`: `BackendPresenter`, `BackendTemplate`, `@layout.latte`,
   `Accessory/Menu` (`SidebarMenu`, `SidebarBuilder`, `SidebarItem`, `SidebarSubItem`, `@menu.latte`,
-  `@menu.user.latte`, `@notifications.latte`), `Accessory/Widget/@content.latte`, `Admin/` (dashboard,
+  `@notifications.latte`), `Accessory/Widget/@content.latte`, `Admin/` (dashboard,
   `1.menu.neon`, `Translate/cs.neon`).
-- `resources/assets/admin.js`, `admin.scss`, `core/admin-theme.*`.
+- `resources/assets/admin.js`, `admin.scss`, `core/admin-theme.*`, `core/admin-layout.scss`.
 - `package.json` (with `name`): the npm dependencies, installed by `npm-loader.js` of drago-ex/project.
 - `tests/`.
 
@@ -22,7 +22,19 @@ sidebar menu, badges, the notification bell, the user menu and the theme. The wo
   application are required for them). Extensions of other packages are not imported here, because backend-ui does
   not require those packages; each README says which lines to add.
 - Styles always go into `admin.scss` by `@import` (one Sass build in a fixed order with the Bootstrap variables),
-  never `import 'x.scss'` in JS.
+  never `import 'x.scss'` in JS. The frame is compostrap: `core/admin-theme.scss` imports Bootstrap Icons, Perfect
+  Scrollbar and the modules `theme-switcher`, `tooltip`, `elements`, `dialogs`; `core/admin-layout.scss` the layout
+  modules `sidebar`, `sidebar-menu`, `dashboard`, imported last (the layout finishes the components), the styles of
+  other packages between them. Font Awesome is still imported in `admin-theme.scss` (and in `package.json`) because
+  project-commerce uses its icons; every other package uses Bootstrap Icons.
+- `core/admin-theme.js`: `Sidebar`, `SidebarMenu`, `ThemeSwitcher` of compostrap, Perfect Scrollbar on the menu,
+  `has-scrolled-content` on the navbar, and `Dialogs.init({ Modal, Offcanvas })` when the module loads (a click
+  outside does not close a modal or an offcanvas).
+- `@layout.latte` (layout 1 of compostrap: `navbar-content sticky-top` + `sidebar-brand-page`): a head script sets the
+  remembered theme (`auto` = the system) and the compact sidebar before the page is drawn; the navbar has the compact
+  button, the breadcrumb, the bell (`@notifications.latte`), the language (`lang-switch-item` of drago-ex/translator;
+  the code visible, "Language" as hidden text) and the user (avatar with initials, name, e-mail; no `aria-label`, the
+  name is the visible text) with Account, the theme as a segmented control and Sign out. Toasts stand bottom right.
 - Menu: only `Admin/1.menu.neon` is here (Dashboard and the `SidebarMenu` service); the packages ship their own
   neons (`Settings/2`, `Permission/3`, `Page/5`, `Blog/6`, `Gallery/7`). `SidebarMenu::build(User)` (called in
   `BackendPresenter`) builds the items and leaves out what the user may not open by

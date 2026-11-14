@@ -14,7 +14,8 @@
 					{var int $itemNo = $iterator->counter}
 					{do $hasSubmenu = $item->items !== []}
 					<li>
-						{do $link = $hasSubmenu ? '#' : $presenter->link($item->link)}
+						{* a link that only opens a submenu has no href, the menu script makes it a button *}
+						{do $link = $hasSubmenu ? null : $presenter->link($item->link)}
 						{* a simple link is current on every page of its presenter, e.g. Blog: on the categories too *}
 						{do $current = $presenter->isLinkCurrent($hasSubmenu ? $item->link : preg_replace('~[^:]*$~', '*', $item->link))}
 						{if $hasSubmenu}
@@ -22,15 +23,15 @@
 								{do $current = $current || $presenter->isLinkCurrent($subItem->link)}
 							{/foreach}
 						{/if}
-						<a href="{$link}" n:class="'list-link', $hasSubmenu ? 'link-arrow', $current ? 'link-current'">
+						<a n:attr="href: $link" n:class="'list-link', $hasSubmenu ? 'link-arrow', $current ? 'link-current'">
 							<div class="clearfix">
 								<div class="float-start">
 									<span n:if="$item->icon" class="list-icon">
-										<i class="{$item->icon}"></i>
+										<i class="{$item->icon}" aria-hidden="true"></i>
 									</span>
 									{_$item->title}
 								</div>
-								<div n:snippet="badge-{$sectionNo}-{$itemNo}" class="float-end"><span n:if="$item->badge" class="badge bg-primary">{$item->badge}</span></div>
+								<div n:snippet="badge-{$sectionNo}-{$itemNo}" class="float-end"><span n:if="$item->badge" class="badge badge-sm badge-subtle theme-primary rounded-pill">{$item->badge}</span></div>
 							</div>
 						</a>
 
@@ -43,7 +44,7 @@
 									<a n:href="$subItem->link" n:class="'list-link', $current ? link-current">
 										<div class="clearfix">
 											<div class="float-start">{_$subItem->title}</div>
-											<div n:snippet="badge-{$sectionNo}-{$itemNo}-{$subItemNo}" class="float-end"><span n:if="$subItem->badge" class="badge bg-primary">{$subItem->badge}</span></div>
+											<div n:snippet="badge-{$sectionNo}-{$itemNo}-{$subItemNo}" class="float-end"><span n:if="$subItem->badge" class="badge badge-sm badge-subtle theme-primary rounded-pill">{$subItem->badge}</span></div>
 										</div>
 									</a>
 								</li>

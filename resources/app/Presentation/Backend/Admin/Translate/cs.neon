@@ -5,7 +5,6 @@
 "Czech": "Čeština"
 "English": "Angličtina"
 "System": "Systém"
-"User": "Uživatel"
 "Sign out": "Odhlásit se"
 "Dashboard": "Přehled"
 "Welcome to the administration welcome page.": "Vítejte na úvodní stránce administrace."
@@ -13,3 +12,13 @@
 # notifications (navbar bell)
 "Notifications": "Upozornění"
 "Waiting for you": "Čeká na vás"
+
+# navbar
+"Compact menu": "Kompaktní menu"
+"Toggle navigation": "Zobrazit navigaci"
+"Language": "Jazyk"
+"Account": "Účet"
+"Theme": "Motiv"
+"Light": "Světlý"
+"Dark": "Tmavý"
+"Auto": "Automaticky"

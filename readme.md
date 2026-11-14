@@ -1,8 +1,9 @@
 # Drago Project Backend UI
 
-The administration layout of Drago Project, based on [Dashboard Skeleton](https://github.com/compostrap/dashboard-skeleton):
-a sidebar menu built from neon files and filtered by permissions, a navbar with the user menu, notifications and
-a light/dark theme switch, and the dashboard.
+The administration layout of Drago Project in the look of [compostrap](https://github.com/compostrap/compostrap):
+a sidebar menu built from neon files and filtered by permissions (also compact, with the icons only), a navbar with
+the breadcrumb, notifications, the language and the user menu with the theme (light, dark, the one of the system),
+and the dashboard.
 
 [![PHP version](https://badge.fury.io/ph/drago-ex%2Fproject-backend-ui.svg)](https://badge.fury.io/ph/drago-ex%2Fproject-backend-ui)
 [![Tests](https://github.com/drago-ex/project-backend-ui/actions/workflows/tests.yml/badge.svg)](https://github.com/drago-ex/project-backend-ui/actions/workflows/tests.yml)
@@ -21,13 +22,15 @@ composer require drago-ex/project-backend-ui
 
 [Project Tools](https://github.com/drago-ex/project-tools) copies the files of the package into the project once,
 replacing the layout and the `admin.*` assets of [Project Backend](https://github.com/drago-ex/project-backend).
-Its npm dependencies (sidebar, theme switcher, Font Awesome) are installed by `npm install` of the project.
+Its npm dependencies (compostrap, Bootstrap Icons, Perfect Scrollbar, Font Awesome) are installed by `npm install`
+of the project.
 
 ## Assets
 
-The copied `assets/admin.js` initializes the theme and registers the Naja extensions of the administration:
-the spinner, the submit button, Tom Select, Bootstrap components and dropdowns, and toasts for flash messages;
-`assets/admin.scss` imports their styles and the tooltip of icon buttons (drago-ex/component). Add the extensions of other packages to the same call:
+The copied `assets/admin.js` initializes the frame (sidebar, menu, theme, scrollbar; a click outside does not close a
+modal or an offcanvas) and registers the Naja extensions of the administration: the spinner, the submit button, Tom
+Select, Bootstrap components and dropdowns, and toasts for flash messages. Add the extensions of other packages to the
+same call:
 
 ```js
 registerNajaExtensions(
@@ -39,6 +42,19 @@ registerNajaExtensions(
 	ToastHandler
 	// the extensions of other packages
 );
+```
+
+`assets/admin.scss` imports the theme, `core/admin-theme` (icons and the compostrap modules the administration uses:
+theme switch, tooltip, elements, dialogs) and, last, `core/admin-layout` (the frame: sidebar, menu, dashboard). The
+styles of other packages go between them:
+
+```scss
+@import 'core/base';
+@import 'core/admin-theme';
+@import 'naja/spinner';
+@import 'drago-form/styles/tom-select';
+// the styles of other packages go here, before the frame of the administration
+@import 'core/admin-layout';
 ```
 
 ## Menu
@@ -53,13 +69,13 @@ parameters:
 		# a section; items of the same section from other files are appended
 		Content:
 			# a link with an icon, current on every page of its presenter
-			page: {title: Static pages, link: 'Page:', icon: fa-regular fa-file-lines bell}
+			page: {title: Static pages, link: 'Page:', icon: bi bi-file-earmark-text bell}
 
 			# an item with a submenu
 			permission:
 				title: Permissions
 				link: 'Permission:*'
-				icon: fa-solid fa-gear bell
+				icon: bi bi-shield-lock bell
 				items:
 					roles: {title: Roles, link: 'Permission:roles'}
 ```

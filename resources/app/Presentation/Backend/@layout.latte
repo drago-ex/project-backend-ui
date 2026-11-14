@@ -2,6 +2,7 @@
 {varType Drago\Application\UI\Flashes[] $flashes}
 {varType App\Core\Security\CurrentUser $currentUser}
 {import '../Accessory/Widget/@brand.latte'}
+{import '../Accessory/Widget/@lang-switch.latte'}
 
 <!doctype html>
 <html lang="{$lang}" data-bs-theme="light">
@@ -9,8 +10,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	{* the remembered theme before the page is drawn, so a dark page does not flash light until the ThemeSwitcher script runs *}
-	<script>try { const theme = localStorage.getItem('bootstrap-theme'); if (theme === 'light' || theme === 'dark') { document.documentElement.setAttribute('data-bs-theme', theme); } } catch (e) { }</script>
+	{* the remembered theme (auto = the theme of the system) and the compact sidebar before the page is drawn, so a dark
+	   page does not flash light and the menu does not jump until the scripts run *}
+	<script>try { let theme = localStorage.getItem('bootstrap-theme'); if (theme === 'auto') { theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; } if (theme === 'light' || theme === 'dark') { document.documentElement.setAttribute('data-bs-theme', theme); } if (localStorage.getItem('sidebar-compact') === '1') { document.documentElement.classList.add('sidebar-compact'); } } catch (e) { }</script>
 	<meta name="robots" content="noindex, nofollow">
 	<title>{ifset title}{include title|stripHtml|firstUpper} &bull; {/ifset}{include brand|stripHtml}</title>
 
@@ -19,95 +21,131 @@
 
 <body n:if="$currentUser->isLoggedIn()">
 
-<header>
-	<nav class="navbar navbar-expand-md bg-body fixed-top">
-		<div class="container-fluid">
-			{* the dashboard is linked only for users who may open it (the same check as its menu item) *}
-			{var bool $dashboard = Drago\Permission\Privilege::isAllowed($currentUser, 'Backend:Admin', 'default')}
+{* the dashboard is linked only for users who may open it (the same check as its menu item) *}
+{var bool $dashboard = Drago\Permission\Privilege::isAllowed($currentUser, 'Backend:Admin', 'default')}
+{var bool $onDashboard = $presenter->isLinkCurrent('Admin:default')}
+{var string $username = $currentUser->getUserIdentity()->username}
 
-			<!-- title -->
-			<a class="navbar-brand" n:attr="href: $dashboard ? $presenter->link('Admin:')" n:tag="$dashboard ? 'a' : 'span'">
-				{include brand-logo}
-				<span class="text-body-emphasis">
-					{include brand}
-				</span>
-			</a>
-
-			<!-- navbar navigation -->
-			<div class="collapse navbar-collapse">
-
-				<!-- breadcrumb -->
-				<ul class="navbar-nav navbar-nav-breadcrumb">
-					<li n:if="$dashboard" class="nav-item"><a class="nav-link" n:href="Admin:">{_'Dashboard'}</a></li>
-					<li n:if="!$presenter->isLinkCurrent('Admin:default')" class="nav-item">
-						<span class="nav-link disabled" aria-current="page">{ifset title}{include title|stripHtml|firstUpper}{/ifset}</span>
-					</li>
-				</ul>
-			</div>
-
-			<div class="ms-auto d-flex align-items-center">
-
-				{* redrawn after every AJAX request (BackendPresenter), e.g. after approving a comment *}
-				<div n:snippet="notifications" class="d-flex">
-					{include 'Accessory/Menu/@notifications.latte', notifications: $notifications}
-				</div>
-
-				{embed '../Accessory/Widget/@dropdown.latte', name: 'Translate', icon: 'fa-solid fa-language', menu: 'end'}
-					{import '../Accessory/Widget/@lang-switch.latte'}
-					{block menu}
-						{include lang-switch, lang: 'cs', name: 'Czech', class: 'dropdown-item', tag: 'li'}
-						{include lang-switch, lang: 'en', name: 'English', class: 'dropdown-item', tag: 'li'}
-					{/block}
-				{/embed}
-
-				{include '../Accessory/Widget/@theme-switch.latte',
-					class: 'nav-link py-2 px-0 px-lg-2 border-0',
-					icon: true,
-				}
-
-				<!-- sidebar toggle -->
-				<button class="navbar-toggler btn btn-link border-0 ms-2" type="button" id="sidebar" aria-label="Toggle navigation" aria-controls="navigation" aria-expanded="false">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-			</div>
-		</div>
-	</nav>
-</header>
-
-<div class="d-flex wrapper wrapper-navbar-used wrapper-navbar-fixed">
-	<nav role="navigation" class="sidebar sidebar-rounded-top-right shadow-soft" id="navigation">
+<div class="d-flex wrapper">
+	<nav role="navigation" class="sidebar" id="navigation">
 		<div class="sidebar-menu">
 			<div class="sidebar-menu-fixed">
-				<div class="scrollbar scrollbar-use-navbar">
 
-					{* sidebar menu *}
-					{include 'Accessory/Menu/@menu.user.latte'}
+				<!-- brand at the top of the sidebar -->
+				<a class="sidebar-brand sidebar-brand-page" n:attr="href: $dashboard ? $presenter->link('Admin:')" n:tag="$dashboard ? 'a' : 'span'">
+					{include brand-logo}
+					<span>{include brand}</span>
+				</a>
+
+				<div class="scrollbar scrollbar-use-navbar">
 					{* only the numbers of the items are redrawn after AJAX requests, the links keep their scripts *}
 					{snippetArea sidebarBadges}
 						{include 'Accessory/Menu/@menu.latte'}
 					{/snippetArea}
-
 				</div>
 			</div>
 		</div>
 	</nav>
 
-	<div class="container-fluid">
+	<div class="layout-content">
 
-		{* content *}
-		<main role="main">
-			{snippet message}
-				{include '../Accessory/Widget/@toast.latte', flashes: $flashes}
-			{/snippet}
+		<!-- navbar over the content only: breadcrumb, notifications, language, user -->
+		<header class="navbar navbar-expand-md navbar-content sticky-top">
+			<div class="container-fluid">
 
-			{* page content *}
-			{include content}
-		</main>
+				<!-- the brand on phones and tablets, where the sidebar with its brand is hidden -->
+				<a class="navbar-brand-mobile" n:attr="href: $dashboard ? $presenter->link('Admin:')" n:tag="$dashboard ? 'a' : 'span'">
+					{include brand-logo}
+					<span>{include brand}</span>
+				</a>
 
-		<!-- license rights, do not delete this piece of code -->
-		<footer class="text-end mt-3 mb-3">
-			<p class="text-muted">&copy; {include brand|stripHtml}</p>
-		</footer>
+				<div class="collapse navbar-collapse">
+					<!-- the compact sidebar with the icons only, remembered in the browser -->
+					<button type="button" class="navbar-icon me-2" data-sidebar-compact aria-pressed="false" aria-label="{_'Compact menu'}" data-tooltip="bottom">
+						<i class="bi bi-layout-sidebar" aria-hidden="true"></i>
+					</button>
+
+					<!-- breadcrumb -->
+					<ol class="breadcrumb">
+						<li n:if="$dashboard" class="breadcrumb-item">
+							<a n:class="breadcrumb-link, $onDashboard ? active" n:attr="href: $onDashboard ? null : $presenter->link('Admin:'), aria-current: $onDashboard ? page">{_'Dashboard'}</a>
+						</li>
+						{if !$onDashboard}
+							<li n:if="$dashboard" class="breadcrumb-divider" aria-hidden="true"></li>
+							<li class="breadcrumb-item">
+								<a class="breadcrumb-link active" aria-current="page">{ifset title}{include title|stripHtml|firstUpper}{/ifset}</a>
+							</li>
+						{/if}
+					</ol>
+				</div>
+
+				<div class="ms-auto d-flex align-items-center gap-1">
+
+					{* redrawn after every AJAX request (BackendPresenter), e.g. after approving a comment *}
+					<div n:snippet="notifications" class="d-flex">
+						{include 'Accessory/Menu/@notifications.latte', notifications: $notifications}
+					</div>
+
+					<!-- language: an icon with the code of the current language, the languages in the dropdown -->
+					<div class="dropdown">
+						<button type="button" class="navbar-icon" data-bs-toggle="dropdown" aria-expanded="false">
+							<i class="bi bi-translate" aria-hidden="true"></i><span class="visually-hidden">{_'Language'}: </span><span class="navbar-icon-text">{$lang|upper}</span>
+						</button>
+						<ul class="dropdown-menu dropdown-menu-end">
+							<li><h6 class="dropdown-header">{_'Language'}</h6></li>
+							{include lang-switch-item, lang: 'cs', name: 'Czech', current: $lang}
+							{include lang-switch-item, lang: 'en', name: 'English', current: $lang}
+						</ul>
+					</div>
+
+					<!-- user: avatar, name and e-mail; the account, the theme and the sign out in the dropdown -->
+					<div class="dropdown ms-1">
+						<button type="button" class="navbar-user" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+							<span class="avatar theme-primary">{$username|substr: 0, 2|upper}</span>
+							<span class="d-none d-lg-block"><span class="navbar-user-name">{$username}</span><span class="navbar-user-role">{$currentUser->getUserIdentity()->email}</span></span>
+						</button>
+						<ul class="dropdown-menu dropdown-menu-end">
+							<li><a class="dropdown-item" n:href=":Account:"><i class="bi bi-person me-2" aria-hidden="true"></i>{_'Account'}</a></li>
+							<li><hr class="dropdown-divider"></li>
+							{* the theme: light, dark or the one of the system; the menu stays open (auto-close outside) *}
+							<li class="dropdown-theme">
+								<span class="dropdown-theme-label">{_'Theme'}</span>
+								<div class="btn-group btn-group-segmented" role="group" aria-label="{_'Theme'}">
+									<button type="button" class="btn btn-sm" data-theme-value="light"><i class="bi bi-sun" aria-hidden="true"></i>{_'Light'}</button>
+									<button type="button" class="btn btn-sm" data-theme-value="dark"><i class="bi bi-moon" aria-hidden="true"></i>{_'Dark'}</button>
+									<button type="button" class="btn btn-sm" data-theme-value="auto"><i class="bi bi-display" aria-hidden="true"></i>{_'Auto'}</button>
+								</div>
+							</li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" n:href=":Sign:out"><i class="bi bi-box-arrow-right me-2" aria-hidden="true"></i>{_'Sign out'}</a></li>
+						</ul>
+					</div>
+
+					<!-- sidebar toggle -->
+					<button class="navbar-toggler btn btn-link border-0 ms-1" type="button" id="sidebar" aria-label="{_'Toggle navigation'}" aria-controls="navigation" aria-expanded="false">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+				</div>
+			</div>
+		</header>
+
+		<div class="container-fluid">
+
+			{* content *}
+			<main role="main">
+				{snippet message}
+					{include '../Accessory/Widget/@toast.latte', flashes: $flashes}
+				{/snippet}
+
+				{* page content *}
+				{include content}
+			</main>
+
+			<!-- license rights, do not delete this piece of code -->
+			<footer class="text-end mt-3 mb-3">
+				<p class="text-muted">&copy; {include brand|stripHtml}</p>
+			</footer>
+		</div>
 	</div>
 </div>
 
