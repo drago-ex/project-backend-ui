@@ -143,7 +143,7 @@ final class DashboardWidget
 ## Permissions
 
 The menu shows only what the user may open: the link of an item, relative to the Backend module, gives the
-resource and the privilege (`'Blog:'` → `Backend:Blog`, `default`; `'Blog:categories'` → `categories`). For a link
+resource and the privilege (`'Blog:'` → `Backend:Blog`, `default`; `'Permission:users'` → `Backend:Permission`, `users`). For a link
 to a page that only redirects, set the privileges with `allow` (any of them is enough):
 
 ```neon
