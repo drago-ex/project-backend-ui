@@ -23,7 +23,7 @@ composer require drago-ex/project-backend-ui
 [Project Tools](https://github.com/drago-ex/project-tools) copies the files of the package into the project once,
 replacing the layout and the `admin.*` assets of [Project Backend](https://github.com/drago-ex/project-backend).
 Its npm dependencies (compostrap, Bootstrap Icons, Perfect Scrollbar, Chart.js, Font Awesome) are installed by
-`npm install` of the project.
+`npm install` of the project; then build the assets again (`npm run vite:build`).
 
 ## Assets
 
