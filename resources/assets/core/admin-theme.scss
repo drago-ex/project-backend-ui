@@ -1,8 +1,6 @@
 // icons and the components of compostrap the administration itself uses; packages add theirs in admin.scss,
 // between this file and core/admin-layout
 @import 'bootstrap-icons/font/bootstrap-icons.css';
-// Font Awesome only until every package uses Bootstrap Icons
-@import '@fortawesome/fontawesome-free/css/all.css';
 @import 'perfect-scrollbar/css/perfect-scrollbar.css';
 @import 'compostrap/src/scss/theme-switcher';
 @import 'compostrap/src/scss/tooltip';
