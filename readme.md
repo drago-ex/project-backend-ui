@@ -45,7 +45,7 @@ registerNajaExtensions(
 ```
 
 `assets/admin.scss` imports the theme, `core/admin-theme` (icons and the compostrap modules the administration uses:
-theme switch, tooltip, elements, dialogs) and, last, `core/admin-layout` (the frame: sidebar, menu, dashboard). The
+theme switch, tooltip, elements; the dialogs come with `core/base`) and, last, `core/admin-layout` (the frame: sidebar, menu, dashboard). The
 styles of other packages go between them:
 
 ```scss

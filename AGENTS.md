@@ -23,7 +23,7 @@ sidebar menu, badges, the notification bell, the user menu and the theme. The wo
   not require those packages; each README says which lines to add.
 - Styles always go into `admin.scss` by `@import` (one Sass build in a fixed order with the Bootstrap variables),
   never `import 'x.scss'` in JS. The frame is compostrap: `core/admin-theme.scss` imports Bootstrap Icons, Perfect
-  Scrollbar and the modules `theme-switcher`, `tooltip`, `elements`, `dialogs`; `core/admin-layout.scss` the layout
+  Scrollbar and the modules `theme-switcher`, `tooltip`, `elements` (`dialogs` is in `core/base.scss` of drago-ex/project); `core/admin-layout.scss` the layout
   modules `sidebar`, `sidebar-menu`, `dashboard`, imported last (the layout finishes the components), the styles of
   other packages between them. Font Awesome is still imported in `admin-theme.scss` (and in `package.json`) because
   project-commerce uses its icons; every other package uses Bootstrap Icons.

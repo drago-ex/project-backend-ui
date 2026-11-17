@@ -99,13 +99,14 @@
 						</ul>
 					</div>
 
-					<!-- user: avatar, name and e-mail; the account, the theme and the sign out in the dropdown -->
+					<!-- user: avatar, name and e-mail; the website (new window), the account, the theme and the sign out in the dropdown -->
 					<div class="dropdown ms-1">
 						<button type="button" class="navbar-user" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 							<span class="avatar theme-primary">{$username|substr: 0, 2|upper}</span>
 							<span class="d-none d-lg-block"><span class="navbar-user-name">{$username}</span><span class="navbar-user-role">{$currentUser->getUserIdentity()->email}</span></span>
 						</button>
 						<ul class="dropdown-menu dropdown-menu-end">
+							<li><a class="dropdown-item" n:href=":Front:Home:" target="_blank" rel="noopener"><i class="bi bi-globe me-2" aria-hidden="true"></i>{_'Homepage'}</a></li>
 							<li><a class="dropdown-item" n:href=":Account:"><i class="bi bi-person me-2" aria-hidden="true"></i>{_'Account'}</a></li>
 							<li><hr class="dropdown-divider"></li>
 							{* the theme: light, dark or the one of the system; the menu stays open (auto-close outside) *}
